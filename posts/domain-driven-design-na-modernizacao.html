@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Domain-Driven Design na modernização: onde cortar o legado — jeniara.dev</title>
+  <meta name="description" content="Como aplicar Domain-Driven Design à modernização de sistemas: linguagem ubíqua, subdomínios, contextos delimitados, Strangler Fig, camada anticorrupção e Event Storming." />
+  <meta name="author" content="Jeniffer Oliveira" />
+  <meta name="keywords" content="domain-driven design, DDD, linguagem ubíqua, modernização de sistemas, strangler fig, camada anticorrupção, event storming, automação corporativa, IA agêntica, arquitetura" />
+  <link rel="canonical" href="https://jeniara.dev/posts/domain-driven-design-na-modernizacao.html" />
+  <link rel="stylesheet" href="../assets/css/automacao-corporativa.css" />
+</head>
+<body>
+  <div class="jd-root">
+    <nav class="jd-nav">
+      <a class="jd-logo" href="../index.html">jeniara<span>.dev</span></a>
+      <ul class="jd-nav-links">
+        <li><a href="../jeniara.dev/index.html">posts</a></li>
+        <li><a href="../sobre.html">sobre</a></li>
+        <li><a href="../resume.html">resume</a></li>
+      </ul>
+    </nav>
+
+    <div class="jd-page">
+      <aside class="jd-sidebar">
+        <p class="jd-eyebrow">caderno técnico aberto</p>
+        <h1>Produto.<br><strong>Código.</strong><br>IA.</h1>
+        <p class="jd-role">Tecnologia, arquitetura e automação — com clareza, escala e eficiência.</p>
+        <ul class="jd-sidebar-links">
+          <li><a href="https://www.linkedin.com/in/jeniara" target="_blank" rel="noopener">linkedin</a></li>
+          <li><a href="https://github.com/" target="_blank" rel="noopener">github</a></li>
+          <li><a href="https://jeniara.dev">jeniara.dev</a></li>
+        </ul>
+        <div class="jd-tags">
+          <span class="jd-tag">DDD</span>
+          <span class="jd-tag">arquitetura</span>
+          <span class="jd-tag">modernização</span>
+          <span class="jd-tag">automação</span>
+        </div>
+      </aside>
+
+      <main class="jd-content">
+        <header class="jd-article-head">
+          <p class="jd-kicker">engenharia · arquitetura · modernização de sistemas</p>
+          <h1 class="jd-article-title">Domain-Driven Design na <strong>modernização</strong>: onde cortar o legado</h1>
+          <p class="jd-deck">Modernizar um sistema corporativo não começa pela escolha de uma tecnologia nova. Começa por entender o negócio, identificar suas fronteiras e decidir como evoluir cada parte sem comprometer a operação. O Domain-Driven Design oferece conceitos e técnicas para transformar esse entendimento em decisões de arquitetura.</p>
+          <div class="jd-byline">
+            <span class="jd-meta">por Jeniffer Oliveira</span>
+            <span class="jd-meta">8 nov 2026</span>
+            <span class="jd-meta">leitura: 11 min</span>
+          </div>
+        </header>
+
+        <article class="jd-article-body">
+          <nav class="jd-toc" aria-label="Sumário do artigo">
+            <p class="jd-toc-title">neste artigo</p>
+            <ol>
+              <li><a href="#fundamentos">O que é o DDD</a></li>
+              <li><a href="#cortes">Onde cortar: subdomínios e contextos delimitados</a></li>
+              <li><a href="#migracao">Migrar sem parar a operação: Strangler Fig e camada anticorrupção</a></li>
+              <li><a href="#eventstorming">Descobrir o domínio com Event Storming</a></li>
+              <li><a href="#automacao">DDD e automação: do caso Michelin aos agentes</a></li>
+              <li><a href="#exemplo">Um exemplo: portabilidade de número em telefonia</a></li>
+              <li><a href="#limites">Limites e por onde começar</a></li>
+              <li><a href="#conclusao">O corte certo vem antes da tecnologia</a></li>
+            </ol>
+          </nav>
+
+          <section id="fundamentos">
+            <h2>O que é o DDD</h2>
+            <p>O Domain-Driven Design foi sistematizado por Eric Evans no livro <em>Domain-Driven Design: Tackling Complexity in the Heart of Software</em>, publicado pela Addison-Wesley em 20 de agosto de 2003. A tese é que o modelo do domínio deve ser o centro do desenho do software. Em vez de começar por tabelas, telas ou serviços, começa-se por entender como o negócio funciona e por representar esse entendimento no código.</p>
+            <p>Duas ideias sustentam o resto. A primeira é a <strong>linguagem ubíqua</strong>: um vocabulário comum entre desenvolvedores e especialistas de negócio, usado nas conversas, nos documentos e no código. A aula da PosTech FIAP que usei como material de apoio dá um exemplo bancário: “transferência”, “TED” e “agendamento” não são sinônimos, cada termo representa um processo distinto, e isso precisa estar claro para todos. A segunda ideia é o <strong>desenho dirigido pelo modelo</strong>, que liga o modelo à implementação e o refatora junto com o código. O livro traz ainda blocos de construção táticos — entidades, objetos de valor, serviços, agregados e repositórios — e o <strong>desenho estratégico</strong>, que organiza sistemas grandes por contextos delimitados, mapas de contexto e destilação do domínio central.</p>
+            <p>A mesma aula organiza o DDD em duas partes. O <strong>DDD estratégico</strong> ajuda a entender o domínio, alinhar o time técnico e os stakeholders e tomar decisões de arquitetura baseadas na estratégia do negócio. O <strong>DDD tático</strong> foca em padrões que fazem o código representar fielmente o negócio, na linguagem dos especialistas da área. O diagnóstico que justifica o esforço também vem dela: muitos sistemas não falham por bugs ou limitações técnicas, e sim por mal-entendidos. A área de negócio acha que explicou, a tecnologia acha que entendeu e o cliente acha que vai receber algo diferente.</p>
+            <p>No plano tático, a aula descreve uma divisão em camadas com as dependências voltadas para o núcleo. O <strong>domínio</strong> fica no centro, com as regras de negócio e sem detalhes técnicos como conexão com banco de dados. A <strong>aplicação</strong> coordena os casos de uso, carrega e salva agregados e dispara eventos de domínio. A <strong>infraestrutura</strong> cuida do mundo externo (bancos, mensageria, e-mail, APIs externas) e implementa as interfaces definidas no domínio. A <strong>interface com o usuário</strong> traduz ações externas em comandos. A própria aula ressalva que não existe uma única forma correta de estruturar uma aplicação.</p>
+            <p>É a parte estratégica que mais interessa à modernização. Ela não diz como escrever uma classe; diz como dividir um sistema grande em partes que façam sentido para o negócio.</p>
+            <blockquote><p>A pergunta deixa de ser “como substituir o sistema antigo?” e passa a ser “quais capacidades do negócio podemos separar, e em que ordem?”.</p></blockquote>
+          </section>
+
+          <section id="cortes">
+            <h2>Onde cortar: subdomínios e contextos delimitados</h2>
+            <p>O guia da AWS para decompor monolitos por subdomínio parte do modelo de domínio e o divide em subdomínios, construindo um microsserviço em torno do contexto delimitado de cada um. Os subdomínios são classificados em três tipos: o <strong>essencial</strong>, que é o diferencial do negócio; o <strong>de apoio</strong>; e o <strong>genérico</strong>, que muitas vezes pode ser uma solução de prateleira. No exemplo do guia, uma seguradora tem Compras e Sinistros como núcleo de Vendas, enquanto Campanhas, Análises e Relatórios apoiam o Marketing.</p>
+            <p>A classificação importa porque orienta o investimento. O que é essencial merece desenho cuidadoso e equipe própria; o genérico é candidato a compra, não a construção. Mas o guia também aponta os limites da técnica: ela funciona melhor quando o monolito já tem módulos com fronteiras bem definidas, que dá para reempacotar sem reescrita relevante. E há dois riscos explícitos: serviços demais, que complicam a descoberta e a integração, e a dificuldade de identificar os subdomínios, que exige conhecimento profundo do negócio.</p>
+            <p>Essa segunda dificuldade é a mais subestimada. Nenhuma ferramenta descobre os subdomínios sozinha; quem sabe onde o negócio muda de vocabulário e de regra são as pessoas que o operam.</p>
+            <p>A aula corrige um erro comum nesse ponto: achar que só dá para usar DDD começando um sistema do zero. Segundo o material, vários projetos começam a aplicar os conceitos justamente na refatoração ou reestruturação de sistemas existentes, e o segredo é começar pequeno, identificando as partes em que o domínio está mal representado e criando modelos novos mais alinhados à realidade. Como ponto de partida, ela sugere mapear as dores com o time de negócio: quais funcionalidades geram mais retrabalho, quais termos são mal compreendidos e quais regras mudam o tempo todo. As respostas ajudam a delimitar os primeiros contextos.</p>
+          </section>
+
+          <section id="migracao">
+            <h2>Migrar sem parar a operação: Strangler Fig e camada anticorrupção</h2>
+            <p>Saber onde cortar é metade do trabalho. A outra metade é migrar sem parar o que já funciona. Duas técnicas aparecem de forma recorrente nas fontes, e uma delas vem diretamente do DDD.</p>
+            <div class="jd-table-wrap">
+              <table>
+                <thead><tr><th>Técnica</th><th>Para que serve</th><th>Limite típico</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Decomposição por subdomínio</strong></td><td>Definir os cortes: um serviço por contexto delimitado, classificado como essencial, de apoio ou genérico.</td><td>Exige módulos já razoavelmente separados e conhecimento profundo do negócio; pode gerar serviços demais.</td></tr>
+                  <tr><td><strong>Strangler Fig</strong></td><td>Construir funcionalidades novas ao lado do legado e mover o comportamento aos poucos, com uma fachada roteando as requisições.</td><td>Não se aplica bem quando não é possível interceptar as requisições, quando não há acesso ao código do legado ou quando o sistema é pequeno.</td></tr>
+                  <tr><td><strong>Camada anticorrupção</strong></td><td>Traduzir entre o modelo do sistema novo e o do legado, para que o novo não herde esquemas e protocolos antigos.</td><td>Adiciona latência e mais um serviço para operar, e pode virar ponto único de falha.</td></tr>
+                  <tr><td><strong>Event Storming</strong></td><td>Descobrir o domínio em oficina, com eventos, comandos, agregados e pontos críticos numa linha do tempo.</td><td>Produz um modelo visual de partida, que se descarta e refaz se preciso; não substitui a validação com o negócio.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <h3>Strangler Fig: a figueira que cresce ao redor do legado</h3>
+            <p>O nome vem das figueiras-estranguladoras que Martin Fowler viu em 2001, na Austrália: elas crescem ao redor de uma árvore hospedeira até substituí-la. Na versão de software, constroem-se funcionalidades novas ao lado do legado e movem-se partes do comportamento uma a uma, com uma arquitetura de transição enquanto os dois sistemas convivem. A versão descrita pela Microsoft coloca uma fachada entre o cliente e os sistemas. Ela roteia cada requisição para o legado ou para os novos serviços e transfere mais tráfego a cada iteração, até a desativação do legado.</p>
+            <p>O banco de dados é a parte mais delicada. Para bases compartilhadas, a descrição da Microsoft prevê extrair um domínio por vez para um banco próprio, com carga histórica por ETL e sincronização por captura de mudanças. E há um alerta que vale repetir: depois que as tabelas saem do monolito, voltar atrás fica caro e arriscado.</p>
+            <h3>Camada anticorrupção: tradução, não regra de negócio</h3>
+            <p>A camada anticorrupção vem do DDD, de Evans, como a própria documentação da Microsoft informa. É uma fachada ou adaptador entre subsistemas de semânticas diferentes, para que o sistema novo fale com o legado usando o seu próprio modelo. Os custos são reais: latência, mais um serviço para operar e o risco de virar ponto único de falha. Por isso a recomendação da fonte é mantê-la só como tradução, sem regras de negócio nem orquestração. Se a camada começa a decidir, ela vira um novo legado no meio do caminho. Combinando isso com a divisão em camadas descrita na aula, uma leitura natural é que a tradução do legado fique do lado da infraestrutura, longe do domínio. Essa ligação é minha, e não vem das fontes.</p>
+          </section>
+
+          <section id="eventstorming">
+            <h2>Descobrir o domínio com Event Storming</h2>
+            <p>Event Storming é uma oficina criada por Alberto Brandolini. Especialistas, pessoas com perguntas e um facilitador colam eventos de domínio numa linha do tempo e, a partir deles, identificam comandos, agregados, reações e pontos críticos (<em>hotspots</em>). A saída é um modelo visual que expõe suposições e conceitos que faltavam, e que pode ser descartado e refeito sem cerimônia.</p>
+            <p>Para modernização, o valor está nos pontos críticos. Eles mostram onde o conhecimento está só na cabeça de algumas pessoas, e onde o legado esconde regras que ninguém mais documentou. É ali que a migração tende a falhar se for feita só a partir do código.</p>
+            <h3>Os elementos do mural</h3>
+            <p>A aula descreve a oficina como uma dinâmica visual e colaborativa: com post-its coloridos, uma parede e um facilitador, o time inteiro mapeia o funcionamento real do negócio antes de qualquer linha de código. O ponto central é o evento, um fato que aconteceu e não pode ser desfeito, como “Pedido criado” ou “Pagamento aprovado”. Em vez de começar por telas, entidades ou APIs, começa-se pelo que de fato acontece no negócio, numa linguagem simples que dispensa diagramas como o UML e que quem não é de TI também entende. Cada tipo de elemento ganha uma cor:</p>
+            <div class="jd-table-wrap">
+              <table>
+                <thead><tr><th>Elemento (cor do post-it)</th><th>O que representa</th><th>Exemplo da aula</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Evento de domínio</strong> (laranja)</td><td>Algo importante que aconteceu no passado, sempre escrito no passado.</td><td>“Pedido Confirmado”, “Pagamento Aprovado”.</td></tr>
+                  <tr><td><strong>Comando</strong> (azul)</td><td>Intenção de ação, iniciada por um ator; quando processado com sucesso, gera eventos.</td><td>“Confirmar Pedido”.</td></tr>
+                  <tr><td><strong>Agregado</strong> (amarelo)</td><td>Processa os comandos e guarda as regras de negócio que mantêm tudo consistente.</td><td>Pedido, pagamento, entrega.</td></tr>
+                  <tr><td><strong>Visualização ou <em>read model</em></strong> (verde)</td><td>Organiza dados para consulta, sem regras de negócio.</td><td>Lista de pedidos, extrato de transações.</td></tr>
+                  <tr><td><strong>Política ou processo</strong> (lilás)</td><td>Reação automática a um evento, que dispara um comando.</td><td>Ao receber “Pagamento Recebido”, mandar “Emitir Nota Fiscal”.</td></tr>
+                  <tr><td><strong>Ator</strong> (rosa)</td><td>Quem interage com o sistema, humano ou outro sistema.</td><td>Usuários e sistemas externos.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>As cores seguem o texto da aula; as figuras do próprio material usam algumas cores um pouco diferentes, então vale combinar a legenda com o time antes da sessão. Os elementos se encadeiam: o ator dispara um comando, que é tratado por um agregado e gera um evento. O evento pode atualizar uma visualização ou disparar uma política que cria outro comando, e o ciclo continua.</p>
+            <h3>De agregados a contextos</h3>
+            <p>Ao agrupar os post-its pelos substantivos centrais da operação (um pedido, um pagamento, uma entrega), enxerga-se quais entidades os eventos afetam. Segundo a aula, esse agrupamento serve de base para decisões de arquitetura: em microsserviços, cada contexto delimitado tende a virar um ou mais serviços autônomos. No exemplo simples do material, os limites seguem diretamente os agregados, mas em aplicações mais robustas um contexto pode conter vários agregados, e um mesmo agregado pode se relacionar com limites diferentes. Por isso vale entender bem esses recortes desde o início.</p>
+            <h3>Um caso reportado: Capital One</h3>
+            <p>A aula cita a Capital One, instituição financeira norte-americana, que aplicou Event Storming na transição de uma arquitetura monolítica para microsserviços. Ao mapear eventos de domínio e identificar agregados e contextos delimitados, a empresa decompôs sistemas complexos em serviços independentes, e a abordagem facilitou identificar capacidades de negócio e definir limites claros entre os serviços. O material atribui ao resultado uma arquitetura mais escalável e alinhada ao domínio. É um relato de segunda mão, sem números: não abri o texto original do caso, intitulado <em>Event storming—Kick-start your microservices architecture</em>.</p>
+          </section>
+
+          <section id="automacao">
+            <h2>DDD e automação: do caso Michelin aos agentes</h2>
+            <p>O DDD também conversa com a automação de processos. O caso mais próximo nas fontes é o da Michelin, publicado pela The Open Group com o título <em>It All Starts with the Domain Boundaries</em>. O processo de pedido ao recebimento (<em>order-to-cash</em>) rodava num monolito em mainframe. A empresa migrou para soluções especializadas de captura de pedidos, otimização de transporte e entrega logística e, para coordená-las, montou um orquestrador central de BPM, mantido por uma equipe própria porque a equipe das aplicações tinha perdido o conhecimento das regras de negócio. Segundo o texto, depois de alguns anos o orquestrador trouxe problemas, que a fonte não detalha.</p>
+            <p>A equipe então analisou como a informação mudava de granularidade e de vocabulário ao longo do processo e chegou a três subdomínios: Pedidos de Clientes, Entregas e Faturas. Para cada dependência, identificou qual subdomínio é o de origem e escolheu um padrão de integração, usando quatro de nove possíveis: Conformist, Anticorruption Layer, Open Host Service e Event Published. O Event Storming identificou os eventos de negócio, e a arquitetura foi repensada em torno de eventos e coreografia, sem orquestrador central. A fonte não informa resultados medidos.</p>
+            <div class="jd-grid">
+              <div class="jd-cell"><p class="jd-cell-label">linguagem</p><p class="jd-cell-value">Vocabulário único por contexto, registrado em glossário e usado no código.</p></div>
+              <div class="jd-cell"><p class="jd-cell-label">fronteira</p><p class="jd-cell-value">Subdomínios definem onde termina cada responsabilidade e cada automação.</p></div>
+              <div class="jd-cell"><p class="jd-cell-label">integração</p><p class="jd-cell-value">Cada dependência recebe um padrão explícito: conformista, camada anticorrupção, serviço aberto ou evento.</p></div>
+              <div class="jd-cell"><p class="jd-cell-label">migração</p><p class="jd-cell-value">Fachada na frente, uma fatia por vez, começando pelo contexto de menor risco.</p></div>
+            </div>
+            <p>A principal lição arquitetural é que as fronteiras do domínio devem orientar também as fronteiras de integração e automação. Uma possibilidade é permitir que cada contexto publique eventos de negócio e que os demais reajam a eles, reduzindo o acoplamento a um coordenador central. Essa é uma interpretação do caso, não uma regra universal: um workflow centralizado continua sendo adequado quando a coordenação explícita do processo é necessária.</p>
+            <h3>E quando o integrador é um agente de IA</h3>
+            <p>O vocabulário do DDD aparece também na IA agêntica. No artigo <em>Your agent skill is not an anti-corruption layer</em>, de Fabian Nonnenmacher (Thoughtworks, 12 de junho de 2026), o autor argumenta que plugar uma ferramenta genérica, como um servidor MCP do Jira, num agente é uma integração conformista: o agente adota o modelo do sistema de origem, e mudanças ali podem quebrá-lo sem aviso. Quando as equipes compensam colocando regras de negócio em prompts ou em skills, o prompt passa a fazer o papel de camada anticorrupção — uma base fraca para produção, porque prompts são probabilísticos.</p>
+            <p>A proposta é criar ferramentas específicas do domínio, com esquemas tipados na linguagem ubíqua do agente (o exemplo do autor é uma função <code>book_trip()</code>), e deixar código comum cuidar da tradução e da validação. O autor afirma que isso garante a linguagem do domínio, valida entradas e reduz parâmetros inventados ou malformados. Ele diz também que o MCP em si não é o problema, que um servidor MCP interno pode funcionar como a camada anticorrupção, e que conformar-se continua razoável para sistemas estáveis e bem conhecidos. É um único artigo de opinião, e legados só aparecem de passagem, mas a ideia combina com o princípio de separar a capacidade de sugerir da capacidade de executar.</p>
+          </section>
+
+          <section id="exemplo">
+            <h2>Um exemplo: portabilidade de número em telefonia</h2>
+            <p>Para ver as técnicas juntas, imagine uma operadora de telefonia móvel que processa pedidos de portabilidade, em que o cliente leva o número de uma operadora para outra. Hoje o fluxo roda num sistema único e antigo, e a empresa quer modernizá-lo e automatizar partes dele. O exemplo é hipotético, uma modelagem minha para ilustrar o raciocínio: não descreve o sistema de nenhuma empresa real nem o processo regulado de portabilidade numérica, cujas etapas, prazos e termos são simplificados aqui. A escolha do setor não é arbitrária: a aula lista as operadoras de telecomunicações entre os casos de uso do DDD, com assinaturas, planos, faturas, consumo de dados e portabilidade, e diz que a modelagem de contexto evita confundir regras técnicas, como rede e banda, com regras de venda, como plano e fidelização.</p>
+<figure class="jd-figure">
+    <img
+        src="../assets/img/diagrama-ddd-portabilidade.png"
+        alt="Diagrama conceitual de portabilidade de número em telefonia: contextos Solicitação, Elegibilidade, Ativação, Faturamento e Comunicação trocando eventos, o legado à esquerda e a automação dentro da fronteira de Elegibilidade."
+        style="
+            width: 100%;
+            max-width: 700px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 0;
+            display: block;
+            margin: 0 auto;
+        "
+    />
+    <figcaption>
+        Modelagem hipotética e ilustrativa: os contextos trocam eventos, e as automações ficam dentro de cada fronteira. A classificação dos contextos e dos eventos que cada um publica é uma hipótese de partida.
+    </figcaption>
+</figure>
+
+        <div class="jd-callout">
+    <h3>Explore o Event Storming</h3>
+    <p>
+        Veja na prática como mapear o processo de portabilidade,
+        identificando eventos de domínio, comandos, atores e regras de negócio.
+    </p>
+    <a href="event-storming-portabilidade.html" target="_blank" rel="noopener">
+        Explorar Event Storming →
+    </a>
+</div>
+
+
+            <h3>1. Descobrir o domínio</h3>
+            <p>Num Event Storming, especialistas de negócio e desenvolvedores colam na linha do tempo os eventos do processo: <em>PortabilidadeSolicitada</em>, <em>ElegibilidadeVerificada</em>, <em>PortabilidadeRejeitada</em>, <em>TransferenciaAgendada</em>, <em>LinhaAtivadaNaRede</em> e <em>PortabilidadeConcluida</em>. Os pontos críticos mostram onde o conhecimento está só na cabeça de algumas pessoas, por exemplo o que torna um pedido elegível. Usando os elementos do mural, o início do fluxo ficaria assim:</p>
+            <div class="jd-table-wrap">
+              <table>
+                <thead><tr><th>Elemento</th><th>No cenário hipotético</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Ator</strong></td><td>O cliente, ou um atendente, que pede a portabilidade.</td></tr>
+                  <tr><td><strong>Comando</strong></td><td><em>SolicitarPortabilidade</em>.</td></tr>
+                  <tr><td><strong>Agregado</strong></td><td><em>Portabilidade</em>, que guarda as regras de estado do pedido.</td></tr>
+                  <tr><td><strong>Evento</strong></td><td><em>PortabilidadeSolicitada</em>.</td></tr>
+                  <tr><td><strong>Política</strong></td><td>Quando <em>ElegibilidadeVerificada</em> acontece, enviar o comando <em>AgendarTransferencia</em>.</td></tr>
+                  <tr><td><strong>Visualização</strong></td><td>Tela de acompanhamento do pedido, só leitura.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <h3>2. Fixar a linguagem</h3>
+            <p>A equipe escreve um glossário e passa a usar os mesmos termos nas conversas e no código. Se o legado usa “cliente”, “assinante” e “titular” para a mesma pessoa em telas diferentes, ou “linha” e “acesso” para o mesmo número, o time escolhe um termo por contexto e registra a diferença, em vez de manter uma palavra com vários sentidos.</p>
+            <h3>3. Separar em contextos</h3>
+            <div class="jd-table-wrap">
+              <table>
+                <thead><tr><th>Contexto</th><th>Responsabilidade</th><th>Subdomínio (hipótese)</th><th>Integração com o legado</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Solicitação</strong></td><td>Receber o pedido e acompanhar seu estado.</td><td>Essencial</td><td>Fachada que roteia para o novo ou o antigo (Strangler Fig).</td></tr>
+                  <tr><td><strong>Elegibilidade</strong></td><td>Aplicar as regras que aceitam ou recusam o pedido.</td><td>Essencial</td><td>Camada anticorrupção traduzindo o modelo do legado.</td></tr>
+                  <tr><td><strong>Ativação</strong></td><td>Agendar a transferência e ativar a linha na rede.</td><td>De apoio</td><td>Eventos publicados para os demais contextos.</td></tr>
+                  <tr><td><strong>Faturamento</strong></td><td>Encerrar ou ajustar a cobrança da linha.</td><td>De apoio</td><td>Consome eventos de Ativação.</td></tr>
+                  <tr><td><strong>Comunicação</strong></td><td>Avisar o cliente em cada etapa.</td><td>Genérico (candidato a solução de prateleira)</td><td>Consome eventos de Solicitação.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>A classificação em essencial, de apoio ou genérico depende da estratégia da empresa e deve ser validada com o negócio.</p>
+            <h3>4. Modelar o agregado</h3>
+            <p>Dentro de Solicitação, <em>Portabilidade</em> seria um agregado com estados (solicitada, em análise, rejeitada, agendada, concluída) e regras que ele mesmo garante, por exemplo “não pode ser concluída sem a linha ativada na rede”. Assim a regra mora num só lugar, e não espalhada por telas e rotinas.</p>
+            <h3>5. Migrar por fatias</h3>
+            <p>Com a fachada na frente, a empresa tira primeiro o contexto de menor risco, por exemplo Comunicação, depois Faturamento, e deixa Elegibilidade para mais tarde, quando as regras já estiverem documentadas no glossário e nos testes. A camada anticorrupção fica só com a tradução, sem regras de negócio.</p>
+            <h3>6. Posicionar a automação</h3>
+            <p>Os contextos dão a fronteira de cada automação. Verificar elegibilidade segue regras fixas e conhecidas, então cabe automação tradicional, determinística e auditável. Já a triagem de pedidos com documentos divergentes ou texto livre é um candidato a agente de IA. Seguindo o argumento do artigo da Thoughtworks, esse agente não deveria receber o sistema legado cru, e sim ferramentas tipadas do próprio contexto, com nomes como <code>verificar_elegibilidade</code> ou <code>registrar_pendencia</code>, enquanto o código comum valida e traduz as chamadas. Entre os contextos, a comunicação por eventos evita um orquestrador central que conheça todas as regras, como no caso da Michelin.</p>
+          </section>
+
+          <section id="limites">
+            <h2>Limites e por onde começar</h2>
+            <p>O DDD não é um atalho. As próprias fontes mostram onde ele cobra preço: o conhecimento do negócio necessário para achar os subdomínios, o risco de fragmentar demais, a latência e a operação extra da camada anticorrupção, e a dificuldade de desfazer a migração quando o banco de dados já foi dividido. Não é uma boa escolha para um sistema pequeno, nem para um legado que não permite interceptar requisições ou acessar o código.</p>
+            <p>Antes de começar, vale responder a quatro perguntas, que são uma síntese minha a partir das fontes:</p>
+            <ol>
+              <li><strong>Já sabemos falar do domínio com a mesma linguagem?</strong> Se não, comece pelo glossário e por um Event Storming.</li>
+              <li><strong>Onde o legado muda de vocabulário e de regra?</strong> Essas são as candidatas a fronteira entre contextos. A aula sugere começar mapeando as dores com o negócio: o que gera mais retrabalho, quais termos são mal compreendidos e quais regras mudam o tempo todo.</li>
+              <li><strong>Conseguimos interceptar as requisições?</strong> Sem isso, a fachada do Strangler Fig não tem onde ficar.</li>
+              <li><strong>O que é essencial e o que é genérico?</strong> Invista desenho no primeiro; considere comprar o segundo.</li>
+            </ol>
+          </section>
+
+          <section id="conclusao">
+            <h2>O corte certo vem antes da tecnologia</h2>
+            <p>Modernizar é, antes de tudo, decidir onde cortar. Linguagem ubíqua dá o vocabulário; subdomínios e contextos delimitados dão as fronteiras; Strangler Fig permite migrar sem parar a operação; a camada anticorrupção protege o sistema novo das ideias do antigo; e o Event Storming ajuda a descobrir o que ninguém escreveu. Como resume a aula, o maior ganho não está só na arquitetura mais limpa, mas na colaboração mais limpa entre quem entende o negócio e quem escreve o sistema.</p>
+            <p>Para a arquitetura, o efeito é direto. <strong>O modelo define as responsabilidades; os contextos delimitados protegem as regras; e os contratos de integração tornam explícitas as relações entre partes do sistema.</strong> A tecnologia vem depois da compreensão do domínio.</p>
+            <blockquote><p>Clareza na fronteira. Escala na migração. Eficiência no processo.</p></blockquote>
+            <p>É esse tipo de engenharia que me interessa acompanhar: não a modernização como uma troca indiscriminada de tecnologia, mas como a evolução de um sistema para representar melhor o negócio — com fronteiras claras, responsabilidades explícitas e mudanças que possam acontecer com segurança.</p>
+          </section>
+
+          <section class="jd-sources" id="referencias">
+            <h2>Referências e leituras</h2>
+            <p>Este artigo reúne fundamentos de Domain-Driven Design, técnicas de decomposição e estratégias de modernização incremental. As referências abaixo identificam as obras, documentações e materiais utilizados na construção do texto.</p>
+            <ol>
+              <li><a href="https://www.pearson.com/en-gb/subject-catalog/p/domain-driven-design-tackling-complexity-in-the-heart-of-software/P200000009375" target="_blank" rel="noopener">Eric Evans — Domain-Driven Design: Tackling Complexity in the Heart of Software</a> — página da obra na Pearson (Addison-Wesley, 2003).</li>
+              <li><a href="https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-decomposing-monoliths/decompose-subdomain.html" target="_blank" rel="noopener">AWS Prescriptive Guidance — Decompose by subdomain</a> — decomposição de monolitos por subdomínio.</li>
+              <li><a href="https://www.martinfowler.com/bliki/StranglerFigApplication.html" target="_blank" rel="noopener">Martin Fowler — Strangler Fig Application</a> — origem e ideia do padrão.</li>
+              <li><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig" target="_blank" rel="noopener">Microsoft Azure Architecture Center — Strangler Fig pattern</a> — fachada, roteamento e variante para bancos de dados.</li>
+              <li><a href="https://learn.microsoft.com/azure/architecture/patterns/anti-corruption-layer" target="_blank" rel="noopener">Microsoft Azure Architecture Center — Anti-corruption Layer pattern</a> — tradução entre subsistemas de semânticas diferentes.</li>
+              <li><a href="https://pubs.opengroup.org/architecture/o-aa-standard/event-storming-workshop.html" target="_blank" rel="noopener">The Open Group — Event Storming workshop</a> — eventos, comandos, agregados e pontos críticos.</li>
+              <li><a href="https://pubs.opengroup.org/architecture/o-aa-standard/case-studies/order-to-cash-case-study.html" target="_blank" rel="noopener">The Open Group — It All Starts with the Domain Boundaries</a> — estudo de caso da Michelin (order-to-cash).</li>
+              <li><a href="https://www.thoughtworks.com/insights/blog/generative-ai/your-agent-skill-not-anti-corruption-layer" target="_blank" rel="noopener">Thoughtworks — Your agent skill is not an anti-corruption layer</a> — DDD aplicado à integração de agentes de IA.</li>
+              <li>PosTech FIAP — Fase 3, Aula 02: <em>Estrutura e requisitos: DDD e Event Storming</em> — material de curso, usado para a divisão entre DDD estratégico e tático, as camadas, a linguagem ubíqua, os elementos do Event Storming, a lista de casos de uso e o relato da Capital One.</li>
+              <li>Eric Evans — <em>Domain-driven design: atacando as complexidades no coração do software</em>, Alta Books, 2016 — edição brasileira da obra, citada pela aula e não consultada diretamente.</li>
+            </ol>
+            <p><strong>Nota metodológica:</strong> o exemplo de portabilidade de número em telefonia e o diagrama são modelagens hipotéticas minhas, sem fonte externa e sem relação com o sistema de uma empresa real; não descrevem o processo regulado de portabilidade numérica. As quatro perguntas da seção de limites e a leitura sobre orquestração e coreografia também são sínteses minhas. A aula é material de curso: foi parafraseada e citada como apoio, as cores dos post-its seguem o seu texto e a ligação que faço entre camadas e camada anticorrupção é minha. O caso da Capital One vem dela, sem números, e não abri o texto original. O estudo de caso da Michelin não traz resultados medidos nem detalha os problemas do orquestrador. O artigo da Thoughtworks é a opinião de um único autor e quase não trata de legados. Capacidades documentadas por fornecedores de nuvem não significam adoção universal nem garantem resultados.</p>
+          </section>
+        </article>
+      </main>
+    </div>
+
+    <footer class="jd-footer">
+      <span class="jd-footer-text">© 2026 jeniara.dev · caderno técnico aberto</span>
+      <div class="jd-social">
+        <a href="https://www.linkedin.com/in/jeniara" target="_blank" rel="noopener">linkedin</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">github</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jeniara.dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-secondary: #f5f5f3;
+      --text-primary: #1a1a18;
+      --text-secondary: #6b6b67;
+      --border: rgba(26, 26, 24, 0.12);
+      --border-md: rgba(26, 26, 24, 0.25);
+      --side-padding: clamp(2rem, 6vw, 6rem);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    .jd-root {
+      width: 100%;
+      padding: 2.5rem var(--side-padding) 3rem;
+    }
+
+    /* Nav */
+    .jd-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5rem;
+      padding-bottom: 1rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .jd-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .jd-logo span {
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    .jd-nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .jd-nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s;
+    }
+
+    .jd-nav-links a:hover { color: var(--text-primary); }
+
+    /* Hero */
+    .jd-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 5rem;
+      align-items: start;
+    }
+
+    .jd-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .jd-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 0.5px;
+      background: var(--text-secondary);
+    }
+
+    .jd-headline {
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 300;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+    }
+
+    .jd-headline strong { font-weight: 500; }
+
+    .jd-hero-right { padding-top: 0.5rem; }
+
+    .jd-bio {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 1.75rem;
+    }
+
+    .jd-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .jd-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      border: 0.5px solid var(--border-md);
+      border-radius: 2px;
+      padding: 4px 10px;
+    }
+
+    /* Divider */
+    .jd-divider {
+      border: none;
+      border-top: 0.5px solid var(--border);
+      margin: 0 0 2.5rem;
+    }
+
+    /* Section label */
+    .jd-section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Topics grid */
+    .jd-topics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin-bottom: 3rem;
+    }
+
+    .jd-topic {
+      background: var(--bg);
+      padding: 1.5rem 1.75rem 2rem;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+
+    .jd-topic:hover { background: var(--bg-secondary); }
+
+    .jd-topic-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .jd-topic-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .jd-topic-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    /* Subscribe */
+    .jd-subscribe {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 1.5rem;
+    }
+
+    .jd-subscribe input {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      border: 0.5px solid var(--border-md);
+      background: var(--bg);
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 2px;
+      outline: none;
+      width: 260px;
+      transition: border-color 0.15s;
+    }
+
+    .jd-subscribe input:focus { border-color: var(--text-secondary); }
+
+    .jd-subscribe input::placeholder {
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    .jd-subscribe button {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--text-primary);
+      color: var(--bg);
+      border: none;
+      padding: 9px 16px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .jd-subscribe button:hover { opacity: 0.75; }
+
+    /* Footer */
+    .jd-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .jd-footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text-secondary);
+    }
+
+    .jd-social { display: flex; gap: 16px; }
+
+    .jd-social a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .jd-social a:hover { color: var(--text-primary); }
+
+    /* Artigos — mapa mental */
+    .jd-map {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .jd-map-root {
+      position: relative;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--text-primary);
+      color: var(--bg);
+      padding: 14px 22px;
+      border-radius: 2px;
+    }
+
+    .jd-map-root::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      width: 1.5rem;
+      border-top: 0.5px solid var(--border-md);
+    }
+
+    .jd-map-branches {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-left: 3rem;
+    }
+
+    .jd-branch {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    /* conector horizontal até o card */
+    .jd-branch::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -1.5rem;
+      width: 1.5rem;
+      border-top: 0.5px solid var(--border-md);
+    }
+
+    /* conector vertical entre os ramos */
+    .jd-branch:first-child::after,
+    .jd-branch:last-child::after {
+      content: '';
+      position: absolute;
+      left: -1.5rem;
+      border-left: 0.5px solid var(--border-md);
+    }
+
+    .jd-branch:first-child::after { top: 50%; bottom: -0.75rem; }
+    .jd-branch:last-child::after { top: -0.75rem; bottom: 50%; }
+
+    .jd-article-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1.5rem 1.75rem;
+      border: 0.5px solid var(--border-md);
+      border-radius: 2px;
+      background: var(--bg);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.12s, border-color 0.12s;
+    }
+
+    .jd-article-item:hover {
+      background: var(--bg-secondary);
+      border-color: var(--text-secondary);
+    }
+
+    .jd-article-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+    }
+
+    .jd-article-item-title {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .jd-article-item-desc {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .jd-article-cta {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-top: 0.25rem;
+    }
+
+    .jd-article-cta span { display: inline-block; transition: transform 0.15s; }
+    .jd-article-item:hover .jd-article-cta span { transform: translateX(4px); }
+
+    /* folhas do mapa (conceitos de cada artigo) */
+    .jd-leaves {
+      position: relative;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-left: 1.5rem;
+    }
+
+    .jd-leaves::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -1.25rem;
+      width: 1.5rem;
+      border-top: 0.5px solid var(--border-md);
+    }
+
+    .jd-leaves li {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      border: 0.5px solid var(--border-md);
+      border-radius: 2px;
+      padding: 4px 10px;
+      background: var(--bg);
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .jd-branch:hover .jd-leaves li {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .jd-map { grid-template-columns: 1fr; align-items: start; }
+      .jd-map-root { display: inline-block; justify-self: start; }
+      .jd-map-root::after { display: none; }
+      .jd-map-branches { margin: 1.5rem 0 0 1rem; gap: 2rem; }
+      .jd-map-branches::before {
+        content: '';
+        position: absolute;
+        left: 0;
+      }
+      .jd-branch { grid-template-columns: 1fr; gap: 1rem; }
+      .jd-branch::before { left: -1rem; width: 1rem; top: 2.5rem; }
+      .jd-branch:first-child::after,
+      .jd-branch:last-child::after { left: -1rem; }
+      .jd-branch:first-child::after { top: 2.5rem; bottom: -1rem; }
+      .jd-branch:last-child::after { top: -1rem; bottom: auto; height: calc(2.5rem + 1rem); }
+      .jd-leaves { padding-left: 0; }
+      .jd-leaves::before { display: none; }
+    }
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .jd-branch { grid-template-columns: 1fr; gap: 1rem; }
+      .jd-leaves { padding-left: 0; }
+      .jd-leaves::before { display: none; }
+    }
+
+    /* Responsive (base) */
+    @media (max-width: 768px) {
+      .jd-hero { grid-template-columns: 1fr; gap: 2rem; }
+      .jd-topics { grid-template-columns: 1fr; }
+      .jd-nav-links { gap: 16px; }
+      .jd-subscribe { flex-direction: column; align-items: flex-start; }
+      .jd-subscribe input { width: 100%; }
+      .jd-footer { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="jd-root">
+    <nav class="jd-nav">
+      <a class="jd-logo" href="/">jeniara<span>.dev</span></a>
+      <ul class="jd-nav-links">
+        <li><a href="#">posts</a></li>
+        <li><a href="sobre.html">sobre</a></li>
+      </ul>
+    </nav>
+
+    <section class="jd-hero">
+      <div class="jd-hero-left">
+        <p class="jd-eyebrow">Technical Product Manager & Software Engineer</p>
+        <h1 class="jd-headline">
+          Engenharia,<br>
+          produto e IA —<br>
+          <strong>documentados.</strong>
+        </h1>
+      </div>
+      <div class="jd-hero-right">
+        <p class="jd-bio">
+          Este blog é o meu caderno técnico aberto. Produto, código, IA e automação — documentando o que funciona, o que não funciona e o que aprendo no caminho.
+        </p>
+        <div class="jd-tags">
+          <span class="jd-tag">product management</span>
+          <span class="jd-tag">software engineering</span>
+          <span class="jd-tag">ai &amp; llms</span>
+          <span class="jd-tag">automation</span>
+          <span class="jd-tag">systems design</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="jd-divider" />
+
+    <p class="jd-section-label">tópicos</p>
+
+    <div class="jd-topics">
+      <div class="jd-topic">
+        <span class="jd-topic-num">01</span>
+        <div class="jd-topic-title">TPM na prática</div>
+        <div class="jd-topic-desc">O dia a dia entre stakeholders, roadmaps e código real.</div>
+      </div>
+      <div class="jd-topic">
+        <span class="jd-topic-num">02</span>
+        <div class="jd-topic-title">Engenharia de software</div>
+        <div class="jd-topic-desc">Arquitetura, sistemas distribuídos e boas práticas.</div>
+      </div>
+      <div class="jd-topic">
+        <span class="jd-topic-num">03</span>
+        <div class="jd-topic-title">IA & automação</div>
+        <div class="jd-topic-desc">LLMs, agentes, pipelines e o que realmente funciona.</div>
+      </div>
+    </div>
+
+    <!-- Nova seção de Artigos -->
+    <p class="jd-section-label" id="artigos">artigos</p>
+
+    <div class="jd-map">
+      <div class="jd-map-root">artigos</div>
+
+      <div class="jd-map-branches">
+        <div class="jd-branch">
+          <a href="posts/automacao-corporativa-futuro-hibrido.html" class="jd-article-item">
+            <span class="jd-article-meta">08 nov 2026 · automação</span>
+            <div class="jd-article-item-title">Da automação tradicional à IA agêntica: por que o futuro é híbrido</div>
+            <div class="jd-article-item-desc">Uma leitura da evolução da automação corporativa: de cartões perfurados e ERP a RPA, cloud workflows e IA agêntica.</div>
+            <span class="jd-article-cta">ler artigo <span>→</span></span>
+          </a>
+          <ul class="jd-leaves">
+            <li>cartões perfurados</li>
+            <li>ERP</li>
+            <li>RPA</li>
+            <li>cloud workflows</li>
+            <li>IA agêntica</li>
+            <li>futuro híbrido</li>
+          </ul>
+        </div>
+
+        <div class="jd-branch">
+          <a href="posts/domain-driven-design-na-modernizacao.html" class="jd-article-item">
+            <span class="jd-article-meta">10 nov 2026 · arquitetura</span>
+            <div class="jd-article-item-title">Domain-Driven Design na modernização: onde cortar o legado</div>
+            <div class="jd-article-item-desc">Como aplicar DDD à modernização de sistemas: linguagem ubíqua, subdomínios, contextos delimitados, Strangler Fig, camada anticorrupção e Event Storming.</div>
+            <span class="jd-article-cta">ler artigo <span>→</span></span>
+          </a>
+          <ul class="jd-leaves">
+            <li>linguagem ubíqua</li>
+            <li>subdomínios</li>
+            <li>contextos delimitados</li>
+            <li>Strangler Fig</li>
+            <li>camada anticorrupção</li>
+            <li>Event Storming</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+    </div>
+
+    <footer class="jd-footer">
+      <span class="jd-footer-text">© 2026 jeniara.dev</span>
+      <div class="jd-social">
+        <a href="#">linkedin</a>
+        <a href="#">github</a>
+        <a href="#">twitter/x</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>resume — jeniara.dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-secondary: #f5f5f3;
+      --text-primary: #1a1a18;
+      --text-secondary: #6b6b67;
+      --border: rgba(26, 26, 24, 0.12);
+      --border-md: rgba(26, 26, 24, 0.25);
+      --side-padding: clamp(2rem, 6vw, 6rem);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    .jd-root { width: 100%; padding: 2.5rem var(--side-padding) 4rem; }
+
+    .jd-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 5rem; padding-bottom: 1rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .jd-logo {
+      font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500;
+      letter-spacing: -0.02em; color: var(--text-primary); text-decoration: none;
+    }
+    .jd-logo span { color: var(--text-secondary); font-weight: 300; }
+    .jd-nav-links { display: flex; gap: 24px; list-style: none; }
+    .jd-nav-links a {
+      font-size: 13px; color: var(--text-secondary); text-decoration: none;
+      letter-spacing: 0.01em; transition: color 0.15s;
+    }
+    .jd-nav-links a:hover, .jd-nav-links a.active { color: var(--text-primary); }
+
+    .jd-page { display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: start; }
+    .jd-sidebar { position: sticky; top: 2.5rem; }
+
+    .jd-eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+      color: var(--text-secondary); text-transform: uppercase; margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .jd-eyebrow::before {
+      content: ''; display: inline-block; width: 20px; height: 0.5px; background: var(--text-secondary);
+    }
+
+    .jd-sidebar h1 {
+      font-size: clamp(28px, 3vw, 40px); font-weight: 300; line-height: 1.2;
+      letter-spacing: -0.03em; margin-bottom: 1rem;
+    }
+    .jd-sidebar h1 strong { font-weight: 500; }
+    .jd-role { font-size: 14px; font-weight: 300; color: var(--text-secondary); margin-bottom: 2rem; }
+
+    .jd-sidebar-links {
+      list-style: none; border-top: 0.5px solid var(--border); padding-top: 1.5rem;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .jd-sidebar-links a {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--text-secondary); text-decoration: none; transition: color 0.15s;
+    }
+    .jd-sidebar-links a:hover { color: var(--text-primary); }
+
+    .jd-print {
+      margin-top: 2rem; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase; background: var(--text-primary);
+      color: var(--bg); border: none; padding: 9px 16px; border-radius: 2px; cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .jd-print:hover { opacity: 0.75; }
+
+    .jd-content { padding-top: 0.25rem; }
+    .jd-section { margin-bottom: 3.5rem; padding-bottom: 3.5rem; border-bottom: 0.5px solid var(--border); }
+    .jd-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .jd-section-label {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+      color: var(--text-secondary); text-transform: uppercase; margin-bottom: 1.25rem;
+    }
+    .jd-section p {
+      font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--text-secondary); margin-bottom: 1rem;
+    }
+    .jd-section p:last-child { margin-bottom: 0; }
+    .jd-section p strong { font-weight: 500; color: var(--text-primary); }
+
+    .jd-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--border); border: 0.5px solid var(--border);
+    }
+    .jd-cell { background: var(--bg); padding: 1.25rem 1.5rem; }
+    .jd-cell-label {
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.4rem;
+    }
+    .jd-cell-value { font-size: 14px; color: var(--text-primary); line-height: 1.4; }
+
+    .jd-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .jd-tag {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em;
+      color: var(--text-secondary); border: 0.5px solid var(--border-md);
+      border-radius: 2px; padding: 4px 10px;
+    }
+
+    .jd-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .jd-list li {
+      font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--text-secondary);
+      padding-left: 1.25rem; position: relative;
+    }
+    .jd-list li::before {
+      content: ''; position: absolute; left: 0; top: 0.8em; width: 8px; height: 0.5px; background: var(--text-secondary);
+    }
+    .jd-list li strong { font-weight: 500; color: var(--text-primary); }
+
+    /* Experiência / formação */
+    .jd-company-head {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .jd-company { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; color: var(--text-primary); }
+    .jd-meta {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em;
+      color: var(--text-secondary); white-space: nowrap;
+    }
+
+    .jd-entry {
+      padding-left: 1.25rem; border-left: 0.5px solid var(--border-md);
+      margin-bottom: 1.75rem; position: relative;
+    }
+    .jd-entry:last-child { margin-bottom: 0; }
+    .jd-entry::before {
+      content: ''; position: absolute; left: -3px; top: 0.6em; width: 5px; height: 5px;
+      background: var(--text-primary); border-radius: 50%;
+    }
+    .jd-entry-head {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 0.5rem;
+    }
+    .jd-entry-title { font-size: 15px; font-weight: 500; color: var(--text-primary); letter-spacing: -0.01em; }
+    .jd-entry-sub { font-size: 13px; font-weight: 300; color: var(--text-secondary); margin-bottom: 0.5rem; }
+    .jd-entry .jd-list li { font-size: 14px; }
+
+    .jd-compact { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .jd-compact li { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+    .jd-compact .t { font-size: 14px; color: var(--text-primary); }
+    .jd-compact .s { display: block; font-size: 13px; font-weight: 300; color: var(--text-secondary); }
+
+    /* Painel GitHub */
+    .jd-gh { border: 0.5px solid var(--border); }
+    .jd-gh-head {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+      padding: 1rem 1.5rem; border-bottom: 0.5px solid var(--border);
+    }
+    .jd-gh-title {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-secondary);
+    }
+    .jd-gh-head a { text-decoration: none; transition: color 0.15s; }
+    .jd-gh-head a:hover { color: var(--text-primary); }
+    .jd-gh .jd-grid { border: none; border-bottom: 0.5px solid var(--border); }
+    .jd-grid.three { grid-template-columns: repeat(3, 1fr); }
+    .jd-gh-graph { padding: 1.25rem 1.5rem; border-bottom: 0.5px solid var(--border); overflow-x: auto; }
+    .jd-gh-graph img { display: block; min-width: 640px; width: 100%; height: auto; }
+    .jd-gh-commits { list-style: none; }
+    .jd-gh-commits li { border-bottom: 0.5px solid var(--border); }
+    .jd-gh-commits li:last-child { border-bottom: none; }
+    .jd-gh-commits a, .jd-gh-empty {
+      display: flex; justify-content: space-between; gap: 1rem; align-items: baseline;
+      padding: 0.85rem 1.5rem; text-decoration: none; transition: background 0.12s;
+    }
+    .jd-gh-commits a:hover { background: var(--bg-secondary); }
+    .jd-gh-msg { font-size: 14px; color: var(--text-primary); line-height: 1.4; }
+    .jd-gh-repo {
+      display: block; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300;
+      color: var(--text-secondary); margin-top: 2px;
+    }
+    .jd-gh-sub {
+      padding: 0.7rem 1.5rem; background: var(--bg-secondary);
+      border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border);
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-secondary);
+    }
+    .jd-gh-right { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+    .jd-gh-tag {
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--text-secondary);
+      border: 0.5px solid var(--border-md); border-radius: 2px; padding: 1px 6px;
+    }
+    .jd-gh-tag.merged { color: var(--text-primary); border-color: var(--text-primary); }
+    .jd-gh-empty { font-size: 13px; font-weight: 300; color: var(--text-secondary); }
+
+    .jd-quote { padding-left: 1.25rem; border-left: 1.5px solid var(--text-primary); }
+    .jd-quote p { font-size: 15px; font-weight: 300; font-style: italic; color: var(--text-primary) !important; line-height: 1.7; }
+
+    .jd-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 5rem; padding-top: 1.5rem; border-top: 0.5px solid var(--border);
+    }
+    .jd-footer-text { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 300; color: var(--text-secondary); }
+    .jd-social { display: flex; gap: 16px; }
+    .jd-social a {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.04em;
+      color: var(--text-secondary); text-decoration: none; transition: color 0.15s;
+    }
+    .jd-social a:hover { color: var(--text-primary); }
+
+    @media (max-width: 768px) {
+      .jd-page { grid-template-columns: 1fr; gap: 3rem; }
+      .jd-sidebar { position: static; }
+      .jd-grid { grid-template-columns: 1fr; }
+      .jd-company-head, .jd-entry-head, .jd-compact li { flex-direction: column; gap: 0.2rem; }
+      .jd-footer { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    }
+
+    @media print {
+      .jd-nav, .jd-footer, .jd-print { display: none; }
+      .jd-root { padding: 0; }
+      .jd-sidebar { position: static; }
+      .jd-page { gap: 2rem; }
+      .jd-section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="jd-root">
+    <nav class="jd-nav">
+      <a class="jd-logo" href="index.html">jeniara<span>.dev</span></a>
+      <ul class="jd-nav-links">
+        <li><a href="index.html">posts</a></li>
+        <li><a href="sobre.html">sobre</a></li>
+        <li><a href="resume.html" class="active">resume</a></li>
+      </ul>
+    </nav>
+
+    <div class="jd-page">
+      <aside class="jd-sidebar">
+        <p class="jd-eyebrow">resume</p>
+        <h1>Jeniffer<br><strong>Oliveira.</strong></h1>
+        <p class="jd-role">Technical Product Manager · Tech Lead<br>Software Engineer</p>
+        <ul class="jd-sidebar-links">
+          <li><a href="https://www.linkedin.com/in/jeniara" target="_blank" rel="noopener">linkedin</a></li>
+          <li><a href="#" data-gh target="_blank" rel="noopener">github</a></li>
+        </ul>
+        <button class="jd-print" type="button" onclick="window.print()">baixar pdf</button>
+      </aside>
+
+      <main class="jd-content">
+
+        <div class="jd-section">
+          <p class="jd-section-label">resumo</p>
+          <p>
+            Atuo como <strong>engenheira de software</strong>, conectando tecnologia, estratégia de produto e modernização operacional para construir soluções escaláveis, resilientes e orientadas a eficiência.
+          </p>
+          <p>
+            Como <strong>Tech Lead / Technical Product Manager</strong> em um Platform Team, lidero iniciativas de automação e transformação tecnológica com foco em confiabilidade operacional, redução de complexidade, observabilidade e evolução contínua da arquitetura — da definição estratégica e alinhamento com o negócio ao direcionamento técnico de soluções distribuídas em cloud.
+          </p>
+          <p>
+            Experiência em projetos de transformação digital, integração de sistemas e automação de processos críticos, buscando maximizar o valor entregue ao cliente e a produtividade dos times por meio de tecnologia, dados e boas práticas de engenharia.
+          </p>
+        </div>
+
+        <div class="jd-section">
+          <p class="jd-section-label">perfil</p>
+          <div class="jd-grid">
+            <div class="jd-cell">
+              <div class="jd-cell-label">atuação</div>
+              <div class="jd-cell-value">Technical Product Management<br>Tech Lead · Software Engineer</div>
+            </div>
+            <div class="jd-cell">
+              <div class="jd-cell-label">foco atual</div>
+              <div class="jd-cell-value">IA · Automação · Decisões de escala</div>
+            </div>
+            <div class="jd-cell">
+              <div class="jd-cell-label">domínios</div>
+              <div class="jd-cell-value">Engenharia de Software · Arquitetura · Plataformas · DevOps</div>
+            </div>
+            <div class="jd-cell">
+              <div class="jd-cell-label">segmento</div>
+              <div class="jd-cell-value">Previdência · Serviços financeiros</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="jd-section">
+          <p class="jd-section-label">experiência</p>
+
+          <div class="jd-company-head">
+            <span class="jd-company">Itaú Unibanco</span>
+            <span class="jd-meta">fev 2018 — presente · 8 anos 10 meses</span>
+          </div>
+
+          <div class="jd-entry">
+            <div class="jd-entry-head">
+              <span class="jd-entry-title">Steward Context IA Engineer</span>
+              <span class="jd-meta">out 2026 — presente</span>
+            </div>
+            <ul class="jd-list">
+              <li>Qualificação de oportunidades com PM e SME de Portfólio, avaliando valor, risco, viabilidade técnica e prioridade antes do refinamento</li>
+              <li>Condução da clarificação de demandas e produção de especificações funcionais rastreáveis, com critérios de aceite, tratamento de exceções e apoio de IA</li>
+              <li>Modelagem de arquitetura com C4 Model e System Design, definindo componentes, fluxos, integrações e pontos de falha da solução</li>
+              <li>Preparação de decisões arquiteturais para banca técnica avaliadora, registradas em ADRs, com análise de trade-offs entre alternativas</li>
+              <li>Revisão técnica de artefatos gerados por IA antes do handoff, garantindo que requisitos e decisões de arquitetura estejam consistentes para o time de desenvolvimento</li>
+              <li>Definição de padrões de implementação em AWS, considerando escalabilidade, resiliência, observabilidade e segurança de dados financeiros</li>
+            </ul>
+          </div>
+
+          <div class="jd-entry">
+            <div class="jd-entry-head">
+              <span class="jd-entry-title">Technical Product Manager | Tech Lead</span>
+              <span class="jd-meta">mai 2021 — presente</span>
+            </div>
+            <ul class="jd-list">
+              <li>Gestão do backlog de automações de previdência, com visão estratégica para modernização, garantindo soluções <strong>escaláveis, flexíveis e compatíveis com o ambiente regulatório</strong>, alinhadas à expectativa do negócio.</li>
+              <li>Condução do time de desenvolvedores, garantindo entregas com a qualidade esperada.</li>
+              <li>Planejamento e implementação da modernização de automações com práticas de <strong>CI/CD</strong>, soluções voltadas a <strong>microsserviços</strong>, integração com ferramentas de cloud (<strong>AWS</strong>), uso de <strong>IA</strong> e uso massivo de dados.</li>
+            </ul>
+          </div>
+
+          <div class="jd-entry">
+            <div class="jd-entry-head">
+              <span class="jd-entry-title">Analista de Operações Previdência</span>
+              <span class="jd-meta">out 2019 — mai 2021</span>
+            </div>
+            <ul class="jd-list">
+              <li>Análise de fluxos de trabalho e processos manuais nas operações de previdência, identificando oportunidades de automatizar tarefas repetitivas e reduzir intervenção manual.</li>
+              <li>Desenvolvimento de automações avançadas (<strong>high code</strong>) em <strong>.NET</strong>, combinadas a plataformas <strong>low code</strong>: low code para prototipagem rápida, high code para integrações mais complexas ou personalizadas.</li>
+            </ul>
+          </div>
+
+          <div class="jd-entry">
+            <div class="jd-entry-head">
+              <span class="jd-entry-title">Estagiário de Operações Previdência</span>
+              <span class="jd-meta">fev 2018 — out 2019</span>
+            </div>
+            <ul class="jd-list">
+              <li>Análise e processamento de concessão de benefícios previdenciários: portabilidades, migrações, sinistro e habilitação de renda.</li>
+              <li>Desenvolvimento de automações para processos operacionais com práticas low code.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="jd-section">
+          <p class="jd-section-label">experiências anteriores</p>
+          <ul class="jd-compact">
+            <li>
+              <span><span class="t">Orçamentista de Instalações</span><span class="s">CTI Instalações Eletromecânicas e Serviços · São Paulo</span></span>
+              <span class="jd-meta">fev 2014 — fev 2018</span>
+            </li>
+            <li>
+              <span><span class="t">Orçamentista de Instalações</span><span class="s">Contécnica Consultoria Técnica S.A. · São Paulo</span></span>
+              <span class="jd-meta">fev 2013 — fev 2014</span>
+            </li>
+            <li>
+              <span><span class="t">Assistente Administrativo</span><span class="s">Bardella S/A · São Paulo</span></span>
+              <span class="jd-meta">jan 2010 — dez 2012</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="jd-section">
+          <p class="jd-section-label">formação</p>
+          <ul class="jd-compact">
+            <li>
+              <span><span class="t">Pós-graduação Lato Sensu — Especialização em Tech Management</span><span class="s">FIAP</span></span>
+              <span class="jd-meta">out 2025 — ago 2026</span>
+            </li>
+            <li>
+              <span><span class="t">Bacharelado em Ciência e Tecnologia</span><span class="s">Universidade Federal do ABC — UFABC</span></span>
+              <span class="jd-meta">2016 — 2021</span>
+            </li>
+            <li>
+              <span><span class="t">Técnico em Eletrotécnica</span><span class="s">Instituto Federal de São Paulo — IFSP</span></span>
+              <span class="jd-meta">2011 — 2012</span>
+            </li>
+            <li>
+              <span><span class="t">Curso de Aprendizagem Industrial — Eletricista de Manutenção</span><span class="s">Escola SENAI Roberto Simonsen</span></span>
+              <span class="jd-meta">2010 — 2012</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="jd-section">
+          <p class="jd-section-label">certificações</p>
+          <ul class="jd-compact">
+            <li>
+              <span><span class="t">AWS Certified Cloud Practitioner </span><span class="s">Amazon Web Services</span></span>
+              <span><span class="t">AWS Certified AI Practitioner </span><span class="s">Amazon Web Services</span></span>
+              <span><span class="t">AWS Certified Solutions Architect – Associate</span><span class="s">Amazon Web Services</span></span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="jd-section">
+          <p class="jd-section-label">competências</p>
+          <div class="jd-tags">
+            <span class="jd-tag">aws</span>
+            <span class="jd-tag">apache kafka</span>
+            <span class="jd-tag">data mesh</span>
+            <span class="jd-tag">product management</span>
+            <span class="jd-tag">software engineering</span>
+            <span class="jd-tag">llms &amp; agentes</span>
+            <span class="jd-tag">automação de processos</span>
+            <span class="jd-tag">microsserviços</span>
+            <span class="jd-tag">ci/cd</span>
+            <span class="jd-tag">sistemas distribuídos</span>
+            <span class="jd-tag">systems design</span>
+            <span class="jd-tag">decisões arquiteturais</span>
+            <span class="jd-tag">observabilidade</span>
+            <span class="jd-tag">.net</span>
+            <span class="jd-tag">low code / high code</span>
+          </div>
+        </div>
+
+        <div class="jd-section">
+          <div class="jd-quote">
+            <p>Acredito em tecnologia como meio para gerar clareza, escala, eficiência e melhorar a experiência das pessoas por meio de operações mais inteligentes, seguras e sustentáveis.</p>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <footer class="jd-footer">
+      <span class="jd-footer-text">© 2026 jeniara.dev</span>
+      <div class="jd-social">
+        <a href="https://www.linkedin.com/in/jeniara" target="_blank" rel="noopener">linkedin</a>
+        <a href="#" data-gh target="_blank" rel="noopener">github</a>
+      </div>
+    </footer>
+  </div>
+  <script>
+    // ⚙️ Troque pelo seu usuário do GitHub
+    const GITHUB_USER = 'jeniara-a';
+
+    (function () {
+      const API = 'https://api.github.com';
+      const $ = (id) => document.getElementById(id);
+      const list = $('gh-commits');
+      const configured = GITHUB_USER && GITHUB_USER !== 'SEU_USUARIO';
+
+      function setEmpty(text) {
+        list.innerHTML = '';
+        const li = document.createElement('li');
+        li.className = 'jd-gh-empty';
+        li.textContent = text;
+        list.appendChild(li);
+      }
+
+      if (!configured) {
+        setEmpty('defina GITHUB_USER no final do arquivo para exibir seus commits.');
+        return;
+      }
+
+      const profileUrl = 'https://github.com/' + GITHUB_USER;
+      document.querySelectorAll('[data-gh]').forEach((a) => (a.href = profileUrl));
+      $('gh-profile').href = profileUrl;
+      $('gh-profile').textContent = '@' + GITHUB_USER + ' ↗';
+
+      const graph = $('gh-graph');
+      graph.onload = () => ($('gh-graph-wrap').hidden = false);
+      graph.src = 'https://ghchart.rshah.org/1a1a18/' + encodeURIComponent(GITHUB_USER);
+
+      function ago(iso) {
+        const s = (Date.now() - new Date(iso).getTime()) / 1000;
+        const units = [['ano', 31536000], ['mês', 2592000], ['d', 86400], ['h', 3600], ['min', 60]];
+        for (const [name, secs] of units) {
+          const n = Math.floor(s / secs);
+          if (n >= 1) return name === 'mês' && n > 1 ? 'há ' + n + ' meses' : name === 'ano' && n > 1 ? 'há ' + n + ' anos' : 'há ' + n + ' ' + name;
+        }
+        return 'agora';
+      }
+
+      function addCommit(c) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = c.url; a.target = '_blank'; a.rel = 'noopener';
+        const left = document.createElement('span');
+        const msg = document.createElement('span');
+        msg.className = 'jd-gh-msg'; msg.textContent = c.message;
+        const repo = document.createElement('span');
+        repo.className = 'jd-gh-repo'; repo.textContent = c.repo + ' · ' + c.sha.slice(0, 7);
+        left.append(msg, repo);
+        const when = document.createElement('span');
+        when.className = 'jd-meta'; when.textContent = ago(c.date);
+        a.append(left, when);
+        li.appendChild(a);
+        list.appendChild(li);
+      }
+
+      async function getJSON(url) {
+        const r = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
+      }
+
+      getJSON(API + '/users/' + GITHUB_USER).then((u) => {
+        $('gh-repos').textContent = u.public_repos;
+        $('gh-followers').textContent = u.followers;
+      }).catch(() => {});
+
+      getJSON(API + '/users/' + GITHUB_USER + '/events/public?per_page=100').then(async (events) => {
+        const pushes = events.filter((e) => e.type === 'PushEvent');
+        const commits = [];
+
+        for (const e of pushes) {
+          const repo = e.repo.name;
+          if (Array.isArray(e.payload.commits) && e.payload.commits.length) {
+            e.payload.commits.forEach((c) => commits.push({
+              sha: c.sha, repo, date: e.created_at,
+              message: c.message.split('\n')[0],
+              url: 'https://github.com/' + repo + '/commit/' + c.sha
+            }));
+          } else if (e.payload.head) {
+            // Fallback: o payload do evento pode vir sem a lista de commits
+            commits.push({
+              sha: e.payload.head, repo, date: e.created_at, message: null,
+              url: 'https://github.com/' + repo + '/commit/' + e.payload.head
+            });
+          }
+        }
+
+        const top = commits.slice(0, 8);
+        await Promise.all(top.filter((c) => !c.message).map(async (c) => {
+          try {
+            const d = await getJSON(API + '/repos/' + c.repo + '/commits/' + c.sha);
+            c.message = d.commit.message.split('\n')[0];
+          } catch (_) { c.message = 'commit ' + c.sha.slice(0, 7); }
+        }));
+
+        $('gh-count').textContent = commits.length;
+        list.innerHTML = '';
+        if (!top.length) return setEmpty('nenhum commit público recente.');
+        top.forEach(addCommit);
+      }).catch(() => setEmpty('não foi possível carregar os commits agora.'));
+
+      // Contribuições: pull requests públicos do usuário (em qualquer repositório)
+      const prList = $('gh-prs');
+      function prEmpty(text) {
+        prList.innerHTML = '';
+        const li = document.createElement('li');
+        li.className = 'jd-gh-empty';
+        li.textContent = text;
+        prList.appendChild(li);
+      }
+
+      const prQuery = encodeURIComponent('author:' + GITHUB_USER + ' type:pr is:public');
+      getJSON(API + '/search/issues?q=' + prQuery + '&sort=updated&order=desc&per_page=8').then((res) => {
+        prList.innerHTML = '';
+        if (!res.items || !res.items.length) return prEmpty('nenhum pull request público encontrado.');
+
+        res.items.forEach((pr) => {
+          const repo = pr.repository_url.replace('https://api.github.com/repos/', '');
+          const status = pr.pull_request && pr.pull_request.merged_at ? 'merged' : pr.state;
+
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = pr.html_url; a.target = '_blank'; a.rel = 'noopener';
+
+          const left = document.createElement('span');
+          const title = document.createElement('span');
+          title.className = 'jd-gh-msg'; title.textContent = pr.title;
+          const meta = document.createElement('span');
+          meta.className = 'jd-gh-repo'; meta.textContent = repo + ' · #' + pr.number;
+          left.append(title, meta);
+
+          const right = document.createElement('span');
+          right.className = 'jd-gh-right';
+          const tag = document.createElement('span');
+          tag.className = 'jd-gh-tag ' + status; tag.textContent = status;
+          const when = document.createElement('span');
+          when.className = 'jd-meta'; when.textContent = ago(pr.updated_at);
+          right.append(tag, when);
+
+          a.append(left, right);
+          li.appendChild(a);
+          prList.appendChild(li);
+        });
+      }).catch(() => prEmpty('não foi possível carregar os pull requests agora.'));
+    })();
+  </script>
+</body>
+</html>

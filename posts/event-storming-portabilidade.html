@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Event Storming · Portabilidade de Telefonia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--bg:#f2f3f6;--surface:#fff;--fg:#151a22;--muted:#596273;--line:#d6dae2;--soft:#e8eaf0;--focus:#2457d6;--font-display:"Space Grotesk",system-ui,sans-serif;--font-body:"Inter",system-ui,sans-serif;--font-mono:"JetBrains Mono",ui-monospace,monospace;--s-evt:#ffb347;--s-cmd:#8cc0ff;--s-agg:#ffe66d;--s-read:#a9e08c;--s-pol:#cdaaf6;--s-actor:#ffc4dd;--s-ext:#f088ae;--s-hot:#ff6b6b;--ink:#1b1b1b}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1117;--surface:#161a22;--fg:#e9ecf2;--muted:#9ba4b4;--line:#2a303b;--soft:#1e232d;--focus:#8fb0ff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1117;--surface:#161a22;--fg:#e9ecf2;--muted:#9ba4b4;--line:#2a303b;--soft:#1e232d;--focus:#8fb0ff;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 var(--font-body);padding:28px 16px 56px}.wrap{max-width:1200px;margin:auto}a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.hd h1{font:700 clamp(28px,5vw,44px)/1.05 var(--font-display);margin:0 0 10px;letter-spacing:-.01em}.hd p{color:var(--muted);max-width:82ch;margin:0}.sec{font:700 22px/1.2 var(--font-display);margin:40px 0 6px}.sec-s{color:var(--muted);margin:0 0 14px;max-width:80ch;font-size:14px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;list-style:none;padding:0;margin:22px 0 0;font-size:13px}.legend li{display:flex;align-items:center;gap:7px}.legend span{color:var(--muted)}.sw{width:16px;height:16px;flex:0 0 auto;border-radius:3px;background:var(--c);box-shadow:inset 0 0 0 1px #0003}.sw.as{background:transparent;box-shadow:none;outline:1.5px dashed var(--muted);outline-offset:-3px}
+.k-evt{--c:var(--s-evt)}.k-cmd{--c:var(--s-cmd)}.k-agg{--c:var(--s-agg)}.k-read{--c:var(--s-read)}.k-pol{--c:var(--s-pol)}.k-actor{--c:var(--s-actor)}.k-ext{--c:var(--s-ext)}.k-hot{--c:var(--s-hot)}
+.bar{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;justify-content:space-between;margin:40px 0 12px}.bar h2{margin:0}.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}.seg button{font:500 13px var(--font-body);padding:8px 14px;border:0;background:var(--surface);color:var(--fg);cursor:pointer}.seg button+button{border-left:1px solid var(--line)}.seg button[aria-pressed=true]{background:var(--fg);color:var(--bg)}
+.map{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0}.map a{display:flex;gap:7px;align-items:baseline;text-decoration:none;color:var(--fg);border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;font-size:13px}.map a b{font:500 11px var(--font-mono);color:var(--muted)}.map .d a{border-style:dashed}.map-n{color:var(--muted);font-size:13px;margin:10px 0 0;max-width:80ch}
+.ph{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px 8px;margin-top:16px;scroll-margin-top:16px}.ph-h{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:flex-start;justify-content:space-between}.ph-k{font:500 11px/1 var(--font-mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}.ph-t h2{font:700 20px/1.2 var(--font-display);margin:0}.kind{font:600 11px/1 var(--font-body);padding:5px 10px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}.ctx{margin:10px 0 0}.aggtag{display:inline-block;background:var(--s-agg);color:var(--ink);font:600 12px/1.2 var(--font-body);padding:4px 9px;border-radius:3px}.note{color:var(--muted);font-size:13px;margin:8px 0 0;max-width:85ch}
+.row{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;padding:14px 0;border-top:1px solid var(--line)}.step{width:26px;height:26px;border-radius:50%;background:var(--fg);color:var(--bg);font:500 12px/26px var(--font-mono);text-align:center;margin-top:6px}.chain{display:flex;flex-wrap:wrap;align-items:center;gap:8px 2px;min-width:0}.ar{flex:0 0 auto;color:var(--muted);font-size:16px;padding:0 4px}.st{position:relative;flex:0 0 auto;width:158px;max-width:100%;background:var(--c);color:var(--ink);border-radius:3px;padding:7px 9px 9px;font-size:12.5px;line-height:1.3;overflow-wrap:anywhere;box-shadow:0 1px 0 #0003,0 3px 8px #0002}.chain>.st:nth-of-type(odd){transform:rotate(-.6deg)}.chain>.st:nth-of-type(even){transform:rotate(.5deg)}.st .lb{display:block;font:600 9.5px/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;opacity:.75;margin-bottom:5px}.st .tx{display:block;font-weight:500}.st .tg{display:inline-block;margin-top:6px;font:500 10.5px/1.3 var(--font-mono);background:#0002;padding:1px 6px;border-radius:2px}.st.as{outline:1.5px dashed #0009;outline-offset:-4px}
+.branch{display:flex;flex-direction:column;gap:10px;padding-left:12px;border-left:2px solid var(--line);margin-left:4px}.bi{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}.go{font:500 11.5px/1.2 var(--font-body);color:var(--fg);text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:4px 10px;background:var(--surface)}.go:hover{background:var(--soft)}.refs{display:flex;gap:4px;margin-left:8px}.hsb{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--s-hot);color:var(--ink);font:700 11px/1 var(--font-body);text-decoration:none;flex:0 0 auto}
+.hs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:12px}.hc{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;scroll-margin-top:16px}.hc h3{font:700 15px/1.25 var(--font-display);margin:0}.hc p{grid-column:2;margin:4px 0 0;font-size:13.5px;line-height:1.5}.hc .ph-ref{grid-column:2;margin-top:6px;font:500 11px var(--font-mono);color:var(--muted)}.hc:target{outline:2px solid var(--s-hot);outline-offset:2px}
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:10px;margin:0;padding:0;list-style:none}.rules li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5}.rules b{display:block;font:700 13px/1.3 var(--font-display);margin-bottom:3px}.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}tr:last-child td{border-bottom:0}th{font:600 11px/1 var(--font-body);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}td.m{font:500 12.5px var(--font-mono);white-space:nowrap}.disclaimer{border-left:3px solid var(--focus);padding:10px 14px;background:var(--surface);color:var(--muted);font-size:13px;margin-top:22px}
+@media(max-width:480px){.ph{padding:14px 12px 6px}.row{grid-template-columns:24px minmax(0,1fr);gap:8px}.step{width:24px;height:24px;line-height:24px;font-size:11px}.st{width:145px}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="hd">
+<h1>Event Storming da portabilidade de telefonia</h1>
+<p>Visão conceitual da portabilidade numérica no Brasil, considerando a jornada do assinante que solicita a troca de prestadora e mantém seu número. O fluxo percorre a prestadora receptora, a prestadora doadora, a entidade administradora da portabilidade e as redes de telecomunicações.</p>
+</header>
+<ul class="legend" aria-label="Legenda">
+<li><i class="sw k-evt"></i><b>Evento</b><span>fato no passado</span></li><li><i class="sw k-cmd"></i><b>Comando</b><span>intenção de ação</span></li><li><i class="sw k-agg"></i><b>Agregado</b><span>guarda as regras</span></li><li><i class="sw k-read"></i><b>Visualização</b><span>só leitura</span></li><li><i class="sw k-pol"></i><b>Política</b><span>reação automática</span></li><li><i class="sw k-actor"></i><b>Ator</b><span>quem dispara</span></li><li><i class="sw k-ext"></i><b>Sistema externo</b><span>prestadoras, ABR Telecom, rede</span></li><li><i class="sw k-hot"></i><b>Ponto em aberto</b><span>pergunta para validação</span></li><li><i class="sw as"></i><b>Tracejado</b><span>hipótese de desenho</span></li>
+</ul>
+<div class="bar"><h2 class="sec">Mapa do fluxo</h2><div class="seg" role="group" aria-label="Filtrar fases"><button type="button" data-f="all" aria-pressed="true">Tudo</button><button type="button" data-f="main" aria-pressed="false">Fluxo principal</button><button type="button" data-f="desvio" aria-pressed="false">Desvios</button></div></div>
+<ol class="map" id="map"></ol><p class="map-n">As bordas tracejadas indicam caminhos alternativos ou hipóteses a validar. O desenho é agnóstico à implementação e não representa mensagens ou APIs específicas da entidade administradora.</p>
+<div id="board"></div>
+<h2 class="sec">Premissas e regras de negócio consideradas</h2><p class="sec-s">Base para discussão do processo. Regras operacionais, prazos e exceções devem ser validados contra a regulamentação vigente e os procedimentos da prestadora/entidade administradora.</p>
+<ul class="rules">
+<li><b>Preservação do número</b>A portabilidade permite mudar de prestadora mantendo o número, observadas as condições de elegibilidade e abrangência aplicáveis.</li>
+<li><b>Solicitação na receptora</b>O assinante inicia o pedido junto à prestadora para a qual deseja migrar; ela conduz a solicitação e informa o protocolo.</li>
+<li><b>Validação cadastral</b>Dados do titular, número, tipo de serviço e demais requisitos são verificados antes da execução.</li>
+<li><b>Confirmação do titular</b>O processo pode envolver confirmação/autenticação do pedido pelo assinante, conforme o procedimento vigente.</li>
+<li><b>Janela de execução</b>A data/janela de efetivação é coordenada entre os participantes. A comunicação ao cliente e a gestão de expectativa fazem parte da jornada.</li>
+<li><b>Ativação e roteamento</b>A conclusão exige ativação do acesso na receptora e atualização/propagação das informações de roteamento para que chamadas e mensagens cheguem corretamente.</li>
+<li><b>Cancelamento e rejeição</b>Pedido cancelado pelo cliente, dados divergentes, número inelegível ou falha operacional podem interromper o fluxo; os motivos e limites devem ser formalizados.</li>
+<li><b>Continuidade do serviço</b>Devem existir controles para minimizar indisponibilidade, tratar falha de ativação e permitir suporte e rastreabilidade ponta a ponta.</li>
+</ul>
+<h2 class="sec">Pontos em aberto</h2><p class="sec-s">Perguntas que precisam de decisão do negócio, operações, jurídico/regulatório e arquitetura antes de transformar o mapa em especificação executável.</p><div class="hs-grid" id="hot"></div>
+<h2 class="sec">Contratos e integrações (visão lógica)</h2><p class="sec-s">Os nomes abaixo são capacidades lógicas, não códigos oficiais de mensagens ou nomes de APIs.</p>
+<div class="tw"><table><thead><tr><th>Interação</th><th>Origem → destino</th><th>Objetivo</th><th>Dados-chave</th></tr></thead><tbody>
+<tr><td class="m">Criar solicitação</td><td>Canal/receptora → Gestão de portabilidade</td><td>Registrar intenção e abrir protocolo</td><td>Número, titular, documento, serviço, protocolo</td></tr>
+<tr><td class="m">Consultar elegibilidade</td><td>Gestão → cadastro/validação</td><td>Verificar condições para portar</td><td>Número, tipo de acesso, área, titularidade</td></tr>
+<tr><td class="m">Submeter pedido</td><td>Receptora → entidade administradora</td><td>Iniciar coordenação entre prestadoras</td><td>Protocolo, número, prestadoras, janela solicitada</td></tr>
+<tr><td class="m">Validar / responder</td><td>Administradora ↔ doadora</td><td>Verificar pedido e retornar aceite ou rejeição</td><td>Identificadores, resultado, motivo, timestamps</td></tr>
+<tr><td class="m">Agendar execução</td><td>Administradora → participantes</td><td>Comunicar janela e preparar mudança</td><td>Data/hora, número, status</td></tr>
+<tr><td class="m">Confirmar conclusão</td><td>Rede/participantes → gestão</td><td>Registrar ativação e roteamento concluídos</td><td>Protocolo, status, horário, evidências</td></tr>
+<tr><td class="m">Notificar cliente</td><td>Gestão → SMS/app/e-mail</td><td>Informar andamento, conclusão ou impedimento</td><td>Protocolo, status, instruções, motivo tratável</td></tr>
+</tbody></table></div>
+<h2 class="sec">Estados sugeridos para o agregado</h2><p class="sec-s">Máquina de estados inicial para orientar modelagem; estados e transições precisam ser alinhados ao domínio real.</p>
+<div class="tw"><table><thead><tr><th>Estado</th><th>Significado</th><th>Transições típicas</th></tr></thead><tbody>
+<tr><td class="m">RASCUNHO</td><td>Dados ainda não submetidos</td><td>SUBMETIDA, CANCELADA</td></tr><tr><td class="m">SUBMETIDA</td><td>Solicitação registrada e protocolada</td><td>EM_VALIDACAO, REJEITADA, CANCELADA</td></tr><tr><td class="m">EM_VALIDACAO</td><td>Elegibilidade e dados em análise</td><td>AGENDADA, PENDENCIA, REJEITADA</td></tr><tr><td class="m">PENDENCIA</td><td>Necessita correção ou ação</td><td>EM_VALIDACAO, CANCELADA, EXPIRADA</td></tr><tr><td class="m">AGENDADA</td><td>Janela de execução confirmada</td><td>EM_EXECUCAO, CANCELADA</td></tr><tr><td class="m">EM_EXECUCAO</td><td>Ativação e atualização de roteamento em curso</td><td>CONCLUIDA, FALHA_TECNICA</td></tr><tr><td class="m">FALHA_TECNICA</td><td>Execução não concluída; exige recuperação</td><td>EM_EXECUCAO, ENCERRADA_COM_FALHA</td></tr><tr><td class="m">CONCLUIDA</td><td>Número operando na prestadora receptora</td><td>Estado final</td></tr><tr><td class="m">REJEITADA / CANCELADA</td><td>Pedido encerrado sem portabilidade</td><td>Estado final ou novo pedido</td></tr>
+</tbody></table></div>
+<div class="disclaimer"><b>Nota de modelagem:</b> este Event Storming foi elaborado a partir do formato visual do arquivo de referência e de um fluxo conceitual de portabilidade telefônica. Prazos regulatórios, motivos formais de rejeição, confirmação do pedido, regras de cancelamento, códigos de integração e responsabilidades exatas devem ser confirmados com a regulamentação Anatel vigente, a entidade administradora e as áreas responsáveis da operadora.</div>
+</main>
+<script>
+const L={actor:'Ator',cmd:'Comando',evt:'Evento',pol:'Política',read:'Visualização',ext:'Sistema externo'};
+const P=[
+{n:1,k:'main',c:'Entrada do pedido',t:'Solicitação do assinante',a:'Solicitação de Portabilidade',note:'A jornada começa na prestadora receptora, escolhida pelo assinante. O protocolo deve permitir rastrear todas as interações posteriores.',r:[
+{s:1,i:[['actor','Assinante'],['evt','Decisão de mudar de prestadora mantendo o número']]},
+{s:2,i:[['actor','Assinante'],['cmd','Solicitar portabilidade'],['ext','Loja, app, site ou atendimento'],['evt','Solicitação de portabilidade iniciada']]},
+{s:3,i:[['pol','Pedido iniciado: identificar o titular'],['cmd','Coletar e validar dados cadastrais'],['read','Número, documento, titularidade e serviço'],['evt','Dados da solicitação coletados']]},
+{s:4,i:[['cmd','Gerar protocolo e registrar pedido'],['evt','Solicitação protocolada'],['pol','Pedido protocolado: informar cliente'],['evt','Protocolo comunicado ao assinante']]}
+]},
+{n:2,k:'main',c:'Elegibilidade e consentimento',t:'Validação do pedido',a:'Solicitação de Portabilidade',note:'As regras exatas de elegibilidade e confirmação devem ser parametrizadas conforme o serviço, a regulamentação e o procedimento operacional vigente.',r:[
+{s:5,i:[['pol','Solicitação registrada: verificar elegibilidade'],['cmd','Consultar condições de portabilidade'],['ext','Cadastro / motor de elegibilidade'],['evt','Resultado da elegibilidade recebido']]},
+{s:6,i:[['branch',[[['evt','Pedido elegível'],3,'Fase 3 · Coordenação'],[['evt','Dados divergentes ou requisito não atendido'],4,'Fase 4 · Pendência/rejeição']]]]},
+{s:7,i:[['actor','Assinante'],['cmd','Confirmar solicitação / identidade'],['ext','Mecanismo de confirmação definido pela operação'],['evt','Confirmação do pedido registrada']]}
+]},
+{n:3,k:'main',c:'Coordenação entre prestadoras',t:'Submissão à entidade administradora',a:'Processo de Portabilidade',r:[
+{s:8,i:[['pol','Pedido validado e confirmado: submeter'],['cmd','Enviar solicitação de portabilidade'],['ext','Prestadora receptora → entidade administradora'],['evt','Pedido submetido à entidade administradora']]},
+{s:9,i:[['ext','Entidade administradora'],['cmd','Encaminhar solicitação à prestadora doadora'],['evt','Pedido disponibilizado à doadora']]},
+{s:10,i:[['ext','Prestadora doadora'],['cmd','Analisar solicitação recebida'],['branch',[[['evt','Pedido aceito'],5,'Fase 5 · Agendamento'],[['evt','Pedido rejeitado'],4,'Fase 4 · Rejeição']]]]}
+]},
+{n:4,k:'desvio',c:'Tratamento de exceções',t:'Pendência, rejeição ou cancelamento',a:'Solicitação de Portabilidade',note:'A taxonomia de motivos, possibilidade de saneamento e momento limite de cancelamento devem ser definidos com base nas regras oficiais e nos contratos operacionais.',r:[
+{s:11,i:[['ext','Receptora / doadora / administradora'],['evt','Pendência ou rejeição comunicada'],['read','Motivo e participante responsável identificados']]},
+{s:12,i:[['branch',[[['evt','Pendência sanável'],1,'Corrigir dados e ressubmeter · hipótese'],[['evt','Rejeição definitiva'],6,'Encerrar solicitação'],[['evt','Cancelamento solicitado pelo cliente'],6,'Validar prazo e cancelar']]]]},
+{s:13,i:[['pol','Solicitação encerrada: atualizar status'],['cmd','Registrar motivo e encerrar protocolo'],['evt','Portabilidade encerrada sem execução'],['pol','Notificar cliente'],['evt','Resultado comunicado ao assinante']]}
+]},
+{n:5,k:'main',c:'Preparação da execução',t:'Aceite e agendamento',a:'Processo de Portabilidade',r:[
+{s:14,i:[['ext','Entidade administradora'],['evt','Aceite da solicitação recebido'],['pol','Aceite recebido: definir janela de execução']]},
+{s:15,i:[['cmd','Agendar janela de portabilidade'],['ext','Administradora / prestadoras participantes'],['evt','Janela de execução confirmada']]},
+{s:16,i:[['pol','Janela confirmada: preparar rede e atendimento'],['cmd','Preparar ativação do acesso e configuração de rede'],['ext','Prestadora receptora e prestadora doadora'],['evt','Participantes preparados para execução']]},
+{s:17,i:[['pol','Antes da janela: informar assinante'],['cmd','Enviar comunicação de agendamento'],['evt','Cliente informado sobre a janela']]}
+]},
+{n:6,k:'main',c:'Execução técnica',t:'Ativação e atualização de roteamento',a:'Execução de Portabilidade',note:'A execução envolve coordenação operacional e técnica. A sequência detalhada entre ativação, desativação e atualização de roteamento deve refletir o processo real da rede.',r:[
+{s:18,i:[['pol','Janela iniciada: executar portabilidade'],['cmd','Ativar serviço na prestadora receptora'],['ext','Provisionamento / rede da receptora'],['evt','Acesso ativado na receptora']]},
+{s:19,i:[['cmd','Atualizar informações de roteamento'],['ext','Entidade administradora / bases de roteamento / redes'],['evt','Informações de roteamento atualizadas']]},
+{s:20,i:[['cmd','Concluir migração do acesso na doadora'],['ext','Provisionamento / rede da doadora'],['evt','Vínculo anterior encerrado conforme processo']]},
+{s:21,i:[['branch',[[['evt','Testes técnicos aprovados'],7,'Fase 7 · Confirmação'],[['evt','Falha de ativação ou roteamento'],8,'Fase 8 · Recuperação']]]]}
+]},
+{n:7,k:'main',c:'Conclusão e experiência',t:'Validação e encerramento',a:'Solicitação de Portabilidade',r:[
+{s:22,i:[['cmd','Executar testes de voz, SMS e dados'],['ext','Monitoramento / rede'],['evt','Serviços validados no número portado']]},
+{s:23,i:[['pol','Serviços validados: confirmar conclusão'],['cmd','Atualizar solicitação para concluída'],['evt','Portabilidade concluída']]},
+{s:24,i:[['pol','Portabilidade concluída: notificar assinante'],['cmd','Enviar confirmação e orientações'],['evt','Conclusão comunicada ao cliente']]},
+{s:25,i:[['cmd','Encerrar protocolo e consolidar evidências'],['evt','Protocolo encerrado com sucesso']]}
+]},
+{n:8,k:'desvio',c:'Recuperação operacional',t:'Falha técnica e reprocessamento',a:'Execução de Portabilidade',note:'O mecanismo de rollback, reexecução ou contingência depende da arquitetura de rede e dos acordos entre participantes; não deve ser presumido como automático.',r:[
+{s:26,i:[['evt','Falha técnica identificada'],['pol','Falha detectada: abrir incidente e correlacionar protocolo'],['cmd','Acionar operação / NOC'],['evt','Incidente de portabilidade aberto']]},
+{s:27,i:[['actor','Operação / NOC'],['cmd','Diagnosticar ativação e roteamento'],['ext','Ferramentas de rede e entidade administradora'],['evt','Causa da falha identificada']]},
+{s:28,i:[['branch',[[['evt','Falha recuperável'],7,'Reexecutar etapa e validar · hipótese'],[['evt','Falha não recuperável'],4,'Acionar contingência e comunicar cliente']]]]},
+{s:29,i:[['pol','Incidente resolvido: registrar evidências'],['cmd','Atualizar status e encerrar incidente'],['evt','Incidente de portabilidade encerrado']]}
+]}
+];
+const H=[
+{t:'Prazos regulatórios',q:'Quais são os prazos vigentes por etapa (solicitação, confirmação, validação, agendamento, execução e conclusão)? Como calcular dias úteis e tratar descumprimento?',f:[1,2,3,5,6]},
+{t:'Escopo do serviço',q:'O fluxo cobre telefonia móvel, fixa ou ambas? Há diferenças para linhas pré-pagas, pós-pagas, corporativas, múltiplas linhas e números especiais?',f:[1,2]},
+{t:'Elegibilidade e divergências',q:'Quais validações são obrigatórias? Quais divergências permitem correção e quais levam à rejeição? Quem é responsável por cada motivo?',f:[2,4]},
+{t:'Confirmação do titular',q:'Qual canal e mecanismo comprovam a intenção do assinante? Há token, SMS, gravação, assinatura digital ou outro mecanismo? Qual a validade?',f:[1,2]},
+{t:'Cancelamento',q:'Até qual etapa o cliente pode desistir? Como o cancelamento é solicitado, confirmado e propagado para todos os participantes?',f:[3,4,5,6]},
+{t:'Janela de execução',q:'Quem escolhe a janela? Como são tratados reagendamento, indisponibilidade, feriados, manutenção de rede e comunicação ao cliente?',f:[5,6]},
+{t:'Falha e rollback',q:'Quais falhas exigem rollback? Quem coordena a contingência e qual prestadora mantém a responsabilidade pelo serviço durante a recuperação?',f:[6,8]},
+{t:'Confirmação ponta a ponta',q:'Qual evidência define portabilidade concluída: aceite da administradora, atualização de roteamento, ativação do acesso ou teste de chamadas/SMS/dados?',f:[6,7]},
+{t:'Mensageria e contratos',q:'Quais APIs, arquivos, eventos, códigos de retorno e SLAs são usados com a entidade administradora e entre prestadoras? Como correlacionar protocolo e número?',f:[3,5,6]},
+{t:'Notificações e suporte',q:'Quais eventos devem gerar SMS, push ou contato humano? Quais orientações e canais de suporte são apresentados em cada exceção?',f:[1,4,5,7,8]},
+{t:'Privacidade e auditoria',q:'Quais dados pessoais são necessários, por quanto tempo são retidos e quais trilhas de auditoria, controles de acesso e evidências são exigidos?',f:[1,2,3,7]},
+{t:'Indicadores operacionais',q:'Quais métricas serão acompanhadas: taxa de conclusão, rejeição por motivo, tempo ponta a ponta, falha de ativação, reprocessamento e reclamações?',f:[1,4,6,7,8]}
+];
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function st(it){let [t,x,tag,as]=it;return `<div class="st k-${t}${as?' as':''}"><span class="lb">${L[t]}${as?' · hipótese':''}</span><span class="tx">${esc(x)}</span>${tag?`<span class="tg">${esc(tag)}</span>`:''}</div>`}
+function branch(bs){return `<div class="branch">${bs.map(b=>`<div class="bi">${st(b[0])}<a class="go" href="#f${b[1]}">${esc(b[2])}</a></div>`).join('')}</div>`}
+function chain(items){return items.map((it,i)=>(i?'<span class="ar" aria-hidden="true">→</span>':'')+(it[0]==='branch'?branch(it[1]):st(it))).join('')}
+function refs(h){return h&&h.length?`<span class="refs">${h.map(n=>`<a class="hsb" href="#h${n}" aria-label="Ponto em aberto ${n}" title="Ponto em aberto ${n}">${n}</a>`).join('')}</span>`:''}
+function row(r){return `<div class="row"><span class="step" title="Passo ${r.s} do processo">${r.s}</span><div class="chain">${chain(r.i)}${refs(r.h)}</div></div>`}
+function phase(p){return `<section class="ph" id="f${p.n}" data-k="${p.k}"><div class="ph-h"><div class="ph-t"><div class="ph-k">Fase ${p.n} · ${esc(p.c)}</div><h2>${esc(p.t)}</h2></div><span class="kind">${p.k==='main'?'Fluxo principal':'Desvio'}</span></div><p class="ctx"><span class="aggtag">Agregado · ${esc(p.a)}</span></p>${p.note?`<p class="note">${esc(p.note)}</p>`:''}${p.r.map(row).join('')}</section>`}
+document.getElementById('board').innerHTML=P.map(phase).join('');
+document.getElementById('map').innerHTML=P.map(p=>`<li class="${p.k==='desvio'?'d':''}"><a href="#f${p.n}"><b>${p.n}</b>${esc(p.t)}</a></li>`).join('');
+document.getElementById('hot').innerHTML=H.map((h,i)=>`<article class="hc" id="h${i+1}"><span class="hsb">${i+1}</span><h3>${esc(h.t)}</h3><p>${esc(h.q)}</p><div class="ph-ref">Fases ${h.f.join(', ')}</div></article>`).join('');
+const btns=document.querySelectorAll('.seg button');btns.forEach(b=>b.addEventListener('click',()=>{const f=b.dataset.f;btns.forEach(o=>o.setAttribute('aria-pressed',o===b?'true':'false'));document.querySelectorAll('.ph').forEach(s=>{s.hidden=(f==='main'&&s.dataset.k==='desvio')||(f==='desvio'&&s.dataset.k==='main')})}));
+</script></body></html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Da automação tradicional à IA agêntica: o futuro é híbrido — jeniara.dev</title>
+  <meta name="description" content="Uma leitura da evolução da automação corporativa: de cartões perfurados e ERP a RPA, cloud workflows e IA agêntica — e por que arquiteturas híbridas tendem a prevalecer." />
+  <meta name="author" content="Jeniffer Oliveira" />
+  <meta name="keywords" content="automação corporativa, RPA, IA agêntica, automação tradicional, AWS Step Functions, cloud, workflows, arquitetura" />
+  <link rel="canonical" href="https://jeniara.dev/posts/automacao-corporativa-futuro-hibrido.html" />
+  <link rel="stylesheet" href="../assets/css/automacao-corporativa.css" />
+</head>
+<body>
+  <div class="jd-root">
+    <nav class="jd-nav">
+      <a class="jd-logo" href="../index.html">jeniara<span>.dev</span></a>
+      <ul class="jd-nav-links">
+        <li><a href="../jeniara.dev/index.html">posts</a></li>
+        <li><a href="../sobre.html">sobre</a></li>
+        <li><a href="../resume.html">resume</a></li>
+      </ul>
+    </nav>
+
+    <div class="jd-page">
+      <aside class="jd-sidebar">
+        <p class="jd-eyebrow">caderno técnico aberto</p>
+        <h1>Produto.<br><strong>Código.</strong><br>IA.</h1>
+        <p class="jd-role">Tecnologia, arquitetura e automação — com clareza, escala e eficiência.</p>
+        <ul class="jd-sidebar-links">
+          <li><a href="https://www.linkedin.com/in/jeniara" target="_blank" rel="noopener">linkedin</a></li>
+          <li><a href="https://github.com/" target="_blank" rel="noopener">github</a></li>
+          <li><a href="https://jeniara.dev">jeniara.dev</a></li>
+        </ul>
+        <div class="jd-tags">
+          <span class="jd-tag">automação</span>
+          <span class="jd-tag">arquitetura</span>
+          <span class="jd-tag">IA</span>
+          <span class="jd-tag">cloud</span>
+        </div>
+      </aside>
+
+      <main class="jd-content">
+        <header class="jd-article-head">
+          <p class="jd-kicker">engenharia · automação · inteligência artificial</p>
+          <h1 class="jd-article-title">Da automação tradicional à <strong>IA agêntica</strong>: por que o futuro é híbrido</h1>
+          <p class="jd-deck">A automação corporativa não começou com robôs de software — e provavelmente também não vai terminar com agentes de IA. A evolução aponta para uma arquitetura em que regras, workflows, RPA e inteligência artificial trabalham em conjunto, cada um no problema que resolve melhor.</p>
+          <div class="jd-byline">
+            <span class="jd-meta">por Jeniffer Oliveira</span>
+            <span class="jd-meta">8 nov 2026</span>
+            <span class="jd-meta">leitura: 9 min</span>
+          </div>
+        </header>
+
+        <article class="jd-article-body">
+          <nav class="jd-toc" aria-label="Sumário do artigo">
+            <p class="jd-toc-title">neste artigo</p>
+            <ol>
+              <li><a href="#evolucao">A automação sempre acompanhou a tecnologia</a></li>
+              <li><a href="#paradigmas">Regras, workflows, RPA e agentes</a></li>
+              <li><a href="#cloud">O que muda quando a automação vai para cloud</a></li>
+              <li><a href="#hibrido">Arquiteturas híbridas na prática</a></li>
+              <li><a href="#sinistro">Um exemplo: workflow de sinistro com AWS</a></li>
+              <li><a href="#decisao">Como escolher a abordagem</a></li>
+              <li><a href="#conclusao">O futuro é composição, não substituição</a></li>
+            </ol>
+          </nav>
+
+          <section id="evolucao">
+            <h2>A automação sempre acompanhou a tecnologia</h2>
+            <p>Quando falamos em automação, é comum pensar em scripts, robôs que clicam em telas ou, mais recentemente, agentes que conversam com sistemas. Mas a história é bem mais longa. Em 1890, a tabuladora de cartões perfurados de Herman Hollerith foi utilizada no censo dos Estados Unidos e reduziu significativamente o tempo de processamento de dados. A ideia central já estava presente: transformar uma atividade manual, repetitiva e intensiva em informação em um processo executado por máquinas.</p>
+            <p>Nas décadas seguintes, computadores comerciais, linguagens como COBOL, sistemas de planejamento de materiais (MRP), ERP e planilhas eletrônicas ampliaram o alcance da automação dentro das empresas. O foco saiu do cálculo isolado e passou para o processamento de transações, integração de áreas e gestão de operações.</p>
+            <p>Um marco conceitual importante veio com a reengenharia de processos, nos anos 1990: em vez de simplesmente automatizar uma tarefa existente, a tecnologia deveria ajudar a redesenhar o próprio processo. Essa distinção continua atual. Automatizar uma etapa ineficiente pode apenas acelerar o desperdício; modernizar exige entender o fluxo de ponta a ponta.</p>
+            <blockquote><p>A pergunta deixou de ser “qual tarefa podemos automatizar?” e passou a ser “como o processo deveria funcionar se pudéssemos redesenhá-lo hoje?”.</p></blockquote>
+            <p>Com a popularização de plataformas de workflow e RPA, tornou-se possível conectar sistemas e reproduzir interações humanas em interfaces. Agora, a IA generativa e os agentes adicionam uma nova capacidade: interpretar linguagem natural, documentos variáveis e situações que não cabem facilmente em regras previamente definidas.</p>
+          </section>
+
+          <section id="paradigmas">
+            <h2>Regras, workflows, RPA e agentes resolvem problemas diferentes</h2>
+            <p>Essas tecnologias não são versões sucessivas de uma mesma ferramenta. Cada uma representa um mecanismo de execução e decisão com características próprias. A escolha depende da previsibilidade da tarefa, da estrutura dos dados, da criticidade da decisão e da necessidade de auditoria.</p>
+            <div class="jd-table-wrap">
+              <table>
+                <thead><tr><th>Abordagem</th><th>Onde funciona melhor</th><th>Limite típico</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Regras de negócio</strong></td><td>Elegibilidade, limites, cálculos, validações, alçadas e políticas estáveis.</td><td>Não interpretam bem entradas ambíguas ou contextos não previstos.</td></tr>
+                  <tr><td><strong>Workflows</strong></td><td>Orquestrar etapas, estados, eventos, prazos, retries, exceções e aprovações.</td><td>Precisam que as decisões e transições sejam modeladas; não interpretam, por si só, conteúdo ambíguo.</td></tr>
+                  <tr><td><strong>RPA</strong></td><td>Operar interfaces gráficas quando não há API adequada ou integração suportada.</td><td>É sensível a mudanças de tela, seletores, sessão, credenciais e ambiente de execução.</td></tr>
+                  <tr><td><strong>IA agêntica</strong></td><td>Interpretar documentos, lidar com linguagem natural, classificar exceções e planejar etapas delimitadas.</td><td>É probabilística; exige avaliação, limites de autonomia, observabilidade e controles contra respostas incorretas.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Uma regra é determinística: dada a mesma entrada e a mesma versão da regra, esperamos a mesma saída. Um workflow controla a sequência e o estado do processo. Um robô RPA reproduz ações em uma interface. Já um agente pode interpretar uma situação e selecionar ferramentas para cumprir uma tarefa, mas seu comportamento não deve ser tratado como uma regra de negócio confiável.</p>
+            <p>Por isso, em processos financeiros, regulados ou de alto impacto, a IA deve apoiar a interpretação e a recomendação sem assumir automaticamente a autoridade de aprovar, pagar, alterar cadastro ou negar um direito. A decisão final precisa respeitar políticas explícitas, alçadas e pontos de aprovação definidos pelo negócio.</p>
+          </section>
+
+          <section id="cloud">
+            <h2>O que muda quando a automação vai para cloud</h2>
+            <p>A migração para cloud não torna a automação tradicional obsoleta. Ela muda como seus componentes são provisionados, integrados, escalados e observados. Regras continuam necessárias; workflows passam a coordenar serviços distribuídos; e robôs podem executar em ambientes hospedados ou elásticos.</p>
+            <h3>Regras: mais desacopladas e versionáveis</h3>
+            <p>Políticas de elegibilidade, limites, cálculos e validações continuam fazendo sentido como componentes explícitos. Separar decisão da execução facilita versionamento, testes, rastreabilidade e revisão. Tabelas de decisão e abordagens como DMN ajudam a representar regras sem espalhá-las por todo o código do processo.</p>
+            <h3>Workflows: orquestração distribuída e orientada a eventos</h3>
+            <p>Serviços como AWS Step Functions, Google Cloud Workflows e Azure Logic Apps permitem coordenar APIs, serviços cloud e sistemas híbridos. Eles podem controlar estado, timeout, tentativas, tratamento de falhas e integração por eventos. O workflow torna explícito o caminho de execução e permite que diferentes componentes participem do mesmo processo.</p>
+            <p>Cloud, porém, não significa ausência de falhas. Eventos podem ser entregues mais de uma vez; retries podem repetir efeitos colaterais; e transações distribuídas exigem estratégias de idempotência, compensação e reprocessamento. Resiliência precisa ser projetada, não presumida.</p>
+            <h3>RPA: a infraestrutura muda, a interface continua existindo</h3>
+            <p>Plataformas como Power Automate e UiPath oferecem opções de execução de robôs em máquinas hospedadas, VMs gerenciadas ou modelos elásticos. Isso facilita provisionamento e escala, mas não transforma uma automação de interface em integração nativa por API. O robô continua dependente da tela, da sessão, das permissões e da estabilidade da aplicação.</p>
+            <p>Uma diretriz arquitetural útil é priorizar APIs quando houver integração estável e suportada. RPA permanece valioso como ponte para sistemas legados sem API adequada — com controles explícitos de rede, identidade, credenciais e continuidade.</p>
+          </section>
+
+          <section id="hibrido">
+            <h2>Arquiteturas híbridas: cada componente no lugar certo</h2>
+            <p>O desenho mais consistente não coloca agentes no centro de tudo. Ele preserva a previsibilidade onde ela é necessária e usa IA nas etapas em que interpretação variável agrega valor.</p>
+            <div class="jd-grid">
+              <div class="jd-cell"><p class="jd-cell-label">decisão</p><p class="jd-cell-value">Regras explícitas e testáveis avaliam políticas, limites, elegibilidade e alçadas.</p></div>
+              <div class="jd-cell"><p class="jd-cell-label">orquestração</p><p class="jd-cell-value">Workflows controlam estado, sequência, eventos, timeout, retry e aprovação.</p></div>
+              <div class="jd-cell"><p class="jd-cell-label">execução</p><p class="jd-cell-value">APIs são preferidas; RPA cobre interfaces inevitáveis e sistemas legados.</p></div>
+              <div class="jd-cell"><p class="jd-cell-label">interpretação</p><p class="jd-cell-value">IA generativa ou agentes tratam documentos, texto livre e exceções ambíguas.</p></div>
+            </div>
+            <p>O princípio é separar <strong>capacidade de sugerir</strong> de <strong>capacidade de executar</strong>. Um modelo pode extrair informações, classificar um documento ou recomendar um encaminhamento. Antes de qualquer ação, uma camada determinística valida identidade, autorização, dados, limites e necessidade de aprovação humana.</p>
+            <p>Essa separação também melhora a governança. É possível registrar qual documento foi analisado, qual versão do modelo foi utilizada, quais fontes foram recuperadas, que ferramentas foram chamadas, qual regra foi aplicada e quem aprovou a ação final.</p>
+          </section>
+
+          <section id="sinistro">
+            <h2>Um exemplo: workflow híbrido de sinistro com AWS</h2>
+            <p>Imagine a abertura de um sinistro de seguro. O processo recebe documentos, valida informações, consulta sistemas internos, identifica pendências e encaminha o caso para análise. Parte das etapas é previsível; outra parte depende de interpretar laudos, formulários e documentos com formatos diferentes.</p>
+<figure class="jd-figure">
+    <img
+        src="../assets/img/diagrama-aws-sinistro.png"
+        alt="Diagrama conceitual de workflow híbrido de sinistro com serviços AWS, regras de negócio, orquestração, RPA e IA agêntica."
+        style="
+            width: 100%;
+            max-width: 700px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 0;
+            display: block;
+            margin: 0 auto;
+        "
+    />
+    <figcaption>
+        Workflow híbrido ilustrativo: regras, orquestração, RPA e IA agêntica atuam em etapas distintas. O diagrama é conceitual e não representa um blueprint oficial da AWS.
+    </figcaption>
+</figure>
+            <p>Uma composição possível usa Amazon S3 para armazenar documentos; Amazon Textract para apoiar a extração de conteúdo; AWS Step Functions para orquestrar o ciclo; AWS Lambda e DynamoDB para validações e estado de negócio; EventBridge, SQS e SNS para eventos e comunicação; e CloudWatch para observabilidade. Em etapas específicas, um robô pode operar um sistema legado sem API, enquanto Amazon Bedrock pode apoiar a interpretação de documentos ou a classificação de casos complexos.</p>
+            <p>O agente não precisa — e em muitos cenários não deve — ter permissão para aprovar cobertura ou efetuar pagamentos. Ele pode produzir uma recomendação estruturada, acompanhada de evidências e grau de confiança. Regras de negócio e alçadas continuam controlando a decisão, com revisão humana nos casos sensíveis.</p>
+            <p>O valor do modelo híbrido está em combinar escala e flexibilidade sem perder rastreabilidade. O workflow controla o processo; as regras mantêm decisões críticas explícitas; o RPA cobre a lacuna de integração; e a IA amplia a capacidade de lidar com dados não estruturados.</p>
+          </section>
+
+          <section id="decisao">
+            <h2>Como escolher a abordagem</h2>
+            <p>Antes de escolher a tecnologia, vale responder a quatro perguntas:</p>
+            <ol>
+              <li><strong>A regra é conhecida e estável?</strong> Se sim, prefira uma regra explícita, testável e versionável.</li>
+              <li><strong>O desafio é coordenar etapas e sistemas?</strong> Use um workflow para controlar estado, eventos, falhas e aprovações.</li>
+              <li><strong>Existe API adequada?</strong> Prefira integração direta; considere RPA quando a interface for a única opção viável.</li>
+              <li><strong>A entrada exige interpretação variável?</strong> Considere IA, mas limite ferramentas e permissões, avalie resultados e mantenha aprovação humana para ações de alto impacto.</li>
+            </ol>
+            <p>Também é necessário avaliar custo e risco. Agentes podem consumir mais recursos do que fluxos determinísticos, especialmente quando há múltiplas chamadas de modelo ou ferramentas. O ganho precisa justificar custo por execução, latência, observabilidade, manutenção e esforço de governança.</p>
+          </section>
+
+          <section id="conclusao">
+            <h2>O futuro é composição, não substituição</h2>
+            <p>A história da automação corporativa é uma história de abstração crescente: de máquinas que processam cartões a sistemas integrados, de scripts a workflows distribuídos, de robôs de interface a agentes capazes de interpretar contexto. Cada avanço amplia o repertório, mas não elimina a necessidade das camadas anteriores.</p>
+            <p>O futuro mais plausível é uma arquitetura composta. <strong>Regras definem o que é permitido; workflows coordenam quando e em que ordem executar; APIs integram sistemas; RPA cobre interfaces legadas; e IA apoia interpretação e tratamento de exceções.</strong></p>
+            <p>O desafio de arquitetura não é adotar a tecnologia mais nova em todas as etapas. É entender onde cada mecanismo agrega valor, onde introduz risco e como manter o processo observável, auditável e sustentável.</p>
+            <blockquote><p>Clareza na decisão. Escala na execução. Eficiência no processo.</p></blockquote>
+            <p>Esse é o tipo de evolução que me interessa acompanhar: não a automação como substituição indiscriminada de pessoas ou ferramentas, mas como engenharia de processos melhores — com tecnologia aplicada ao problema certo.</p>
+          </section>
+
+          <section class="jd-sources" id="referencias">
+            <h2>Referências e leituras</h2>
+            <p>Este artigo sintetiza a pesquisa “Linha do tempo da automação corporativa”, com marcos históricos, comparação entre automação tradicional e IA agêntica, e análise de regras, workflows e RPA em ambientes cloud. As referências abaixo são as documentações e materiais técnicos citados na pesquisa de origem.</p>
+            <ol>
+              <li><a href="https://www.historyofinformation.com/" target="_blank" rel="noopener">History of Information</a> — tabuladora de Hollerith e história do processamento de informação.</li>
+              <li><a href="https://www.cobol.com/" target="_blank" rel="noopener">COBOL</a> — contexto histórico da linguagem de negócios.</li>
+              <li><a href="https://www.ibm.com/history" target="_blank" rel="noopener">IBM History</a> — evolução dos sistemas computacionais empresariais.</li>
+              <li><a href="https://camunda.com/dmn/" target="_blank" rel="noopener">Camunda — DMN</a> — modelagem de decisões e tabelas de regras.</li>
+              <li><a href="https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html" target="_blank" rel="noopener">AWS Step Functions</a> — orquestração de workflows e tratamento de falhas.</li>
+              <li><a href="https://docs.aws.amazon.com/step-functions/latest/dg/eventbridge-integration.html" target="_blank" rel="noopener">AWS Step Functions + EventBridge</a> — integração orientada a eventos.</li>
+              <li><a href="https://cloud.google.com/workflows/docs/overview" target="_blank" rel="noopener">Google Cloud Workflows</a> — orquestração serverless de serviços e APIs.</li>
+              <li><a href="https://learn.microsoft.com/en-us/azure/logic-apps/logic-apps-overview" target="_blank" rel="noopener">Microsoft Azure Logic Apps</a> — workflows cloud e híbridos.</li>
+              <li><a href="https://learn.microsoft.com/en-us/power-automate/desktop-flows/hosted-machines" target="_blank" rel="noopener">Microsoft Power Automate — Hosted machines</a> — execução de desktop flows em máquinas hospedadas.</li>
+              <li><a href="https://docs.uipath.com/orchestrator/automation-cloud/latest/user-guide/about-cloud-robots" target="_blank" rel="noopener">UiPath Cloud Robots</a> — modelos de execução cloud para RPA.</li>
+              <li><a href="https://www.anthropic.com/engineering" target="_blank" rel="noopener">Anthropic Engineering</a> — práticas de arquitetura e construção de agentes.</li>
+              <li><a href="https://genai.owasp.org/llm-top-10/" target="_blank" rel="noopener">OWASP Top 10 for LLM Applications</a> — riscos de segurança em aplicações com LLMs.</li>
+            </ol>
+            <p><strong>Nota metodológica:</strong> o diagrama AWS é uma arquitetura conceitual para ilustrar a composição dos componentes. A escolha de serviços, controles de segurança, regiões, retenção, integrações e pontos de aprovação deve ser validada para cada contexto. Capacidades documentadas por fornecedores não significam adoção universal nem garantem resultados.</p>
+          </section>
+        </article>
+      </main>
+    </div>
+
+    <footer class="jd-footer">
+      <span class="jd-footer-text">© 2026 jeniara.dev · caderno técnico aberto</span>
+      <div class="jd-social">
+        <a href="https://www.linkedin.com/in/jeniara" target="_blank" rel="noopener">linkedin</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">github</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

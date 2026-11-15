@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sobre — jeniara.dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-secondary: #f5f5f3;
+      --text-primary: #1a1a18;
+      --text-secondary: #6b6b67;
+      --border: rgba(26, 26, 24, 0.12);
+      --border-md: rgba(26, 26, 24, 0.25);
+      --side-padding: clamp(2rem, 6vw, 6rem);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    .jd-root {
+      width: 100%;
+      padding: 2.5rem var(--side-padding) 4rem;
+    }
+
+    .jd-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5rem;
+      padding-bottom: 1rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .jd-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .jd-logo span {
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    .jd-nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .jd-nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s;
+    }
+
+    .jd-nav-links a:hover { color: var(--text-primary); }
+    .jd-nav-links a.active { color: var(--text-primary); }
+
+    .jd-page {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .jd-sidebar {
+      position: sticky;
+      top: 2.5rem;
+    }
+
+    .jd-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .jd-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 0.5px;
+      background: var(--text-secondary);
+    }
+
+    .jd-sidebar h1 {
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 300;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      margin-bottom: 2rem;
+    }
+
+    .jd-sidebar h1 strong { font-weight: 500; }
+
+    .jd-sidebar-links {
+      list-style: none;
+      border-top: 0.5px solid var(--border);
+      padding-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .jd-sidebar-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .jd-sidebar-links a:hover { color: var(--text-primary); }
+
+    .jd-content { padding-top: 0.25rem; }
+
+    .jd-section {
+      margin-bottom: 3.5rem;
+      padding-bottom: 3.5rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .jd-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .jd-section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    .jd-section p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .jd-section p:last-child { margin-bottom: 0; }
+
+    .jd-section p strong {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .jd-highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin-top: 1.5rem;
+    }
+
+    .jd-highlight {
+      background: var(--bg);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .jd-highlight-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 0.4rem;
+    }
+
+    .jd-highlight-value {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .jd-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 1.5rem;
+    }
+
+    .jd-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      border: 0.5px solid var(--border-md);
+      border-radius: 2px;
+      padding: 4px 10px;
+    }
+
+    .jd-quote {
+      margin-top: 1.5rem;
+      padding-left: 1.25rem;
+      border-left: 1.5px solid var(--text-primary);
+    }
+
+    .jd-quote p {
+      font-size: 15px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-primary) !important;
+      line-height: 1.7;
+    }
+
+    .jd-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 5rem;
+      padding-top: 1.5rem;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .jd-footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text-secondary);
+    }
+
+    .jd-social { display: flex; gap: 16px; }
+
+    .jd-social a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .jd-social a:hover { color: var(--text-primary); }
+
+    @media (max-width: 768px) {
+      .jd-page { grid-template-columns: 1fr; gap: 3rem; }
+      .jd-sidebar { position: static; }
+      .jd-highlights { grid-template-columns: 1fr; }
+      .jd-footer { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="jd-root">
+    <nav class="jd-nav">
+      <a class="jd-logo" href="/">jeniara<span>.dev</span></a>
+      <ul class="jd-nav-links">
+        <li><a href="file:///Users//Documents/PROJETOS/jeniara.dev/index.html">posts</a></li>
+        <li><a href="sobre.html" class="active">sobre</a></li>
+      </ul>
+    </nav>
+
+    <div class="jd-page">
+      <aside class="jd-sidebar">
+        <div style="margin-bottom: 1.5rem;">
+          <img src="assets/img/photo.jpg" alt="Jeniffer Oliveira" style="width: 100%; max-width: 200px; aspect-ratio: 1/1; object-fit: cover; object-position: center top; border-radius: 12px; display: block;" />
+        </div>
+        <p class="jd-eyebrow">sobre</p>
+        <h1>Jeniffer<br><strong>Oliveira.</strong></h1>
+        <ul class="jd-sidebar-links">
+          <li><a href="https://www.linkedin.com/in/jeniara">linkedin</a></li>
+          <li><a href="https://github.com/jeniara-a/">github</a></li>
+          <li><a href="resume.html">resume</a></li>
+        </ul>
+      </aside>
+
+      <main class="jd-content">
+
+        <div class="jd-section">
+          <p class="jd-section-label">quem sou</p>
+          <p>
+            Sou technical product manager com atuação na interseção entre <strong>engenharia de software, produto e estratégia</strong>. Trabalho em contextos complexos — sistemas corporativos, modernização de arquitetura — onde a clareza técnica é tão importante quanto a visão de negócio.
+          </p>
+          <p>
+            Minha atuação vai além da coordenação. Tenho proximidade real com engenharia: entendo sistemas, integrações e decisões arquiteturais, e uso isso para transformar complexidade em soluções escaláveis que geram impacto.
+          </p>
+
+          <div class="jd-highlights">
+            <div class="jd-highlight">
+              <div class="jd-highlight-label">formação</div>
+              <div class="jd-highlight-value">Bacharelado em Ciência e Tecnologia<br>Especialização em Tech Management</div>
+            </div>
+            <div class="jd-highlight">
+              <div class="jd-highlight-label">atuação</div>
+              <div class="jd-highlight-value">Technical Product Management<br>Software Engineer</div>
+            </div>
+            <div class="jd-highlight">
+              <div class="jd-highlight-label">domínios</div>
+              <div class="jd-highlight-value">Engenharia de Software · Arquitetura · Plataformas · DevOps</div>
+            </div>
+            <div class="jd-highlight">
+              <div class="jd-highlight-label">foco atual</div>
+              <div class="jd-highlight-value">IA · Automação · Decisões de escala</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="jd-section">
+          <p class="jd-section-label">o que me move</p>
+          <p>
+            Nos últimos anos, venho direcionando minha carreira para o uso de <strong>automação e inteligência artificial</strong> como alavancas reais de eficiência e escala — não como tendência, mas como resposta a problemas concretos.
+          </p>
+          <p>
+            Me interessa como essas tecnologias podem reduzir esforço operacional, melhorar a qualidade da tomada de decisão e viabilizar produtos mais inteligentes — especialmente em cenários com alta carga de regras e dados estruturados.
+          </p>
+
+          <div class="jd-tags">
+            <span class="jd-tag">llms & agentes</span>
+            <span class="jd-tag">automação de processos</span>
+            <span class="jd-tag">sistemas distribuídos</span>
+            <span class="jd-tag">decisões arquiteturais</span>
+            <span class="jd-tag">produto técnico</span>
+          </div>
+
+          <div class="jd-quote">
+            <p>Acredito em tecnologia como meio para gerar clareza, escala e eficiência — criando soluções que fazem sentido tanto para o negócio quanto para a vida das pessoas.</p>
+          </div>
+        </div>
+
+        <div class="jd-section">
+          <p class="jd-section-label">este blog</p>
+          <p>
+            O <strong>jeniara.dev</strong> é o meu caderno técnico aberto. Aqui documento o que aprendo, o que quebra e o que finalmente faz sentido — sobre produto, código, IA e automação. Sem filtro corporativo, com profundidade real.
+          </p>
+        </div>
+
+      </main>
+    </div>
+
+    <footer class="jd-footer">
+      <span class="jd-footer-text">© 2026 jeniara.dev</span>
+      <div class="jd-social">
+        <a href="#">linkedin</a>
+        <a href="#">github</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
